@@ -1,1 +1,1 @@
-# BlazorDataTable
+# Blazor DataTable
