@@ -1,0 +1,52 @@
+﻿@typeparam TFloatingPoint
+
+@if (IncludeApply)
+{
+	if (IsApplied)
+	{
+		<AppliedInputValue AppliedText="@AppliedText" UnApplyFilterEvent="@UnApplyFilterEvent" MaxWidth="@MaxWidth" />
+	}
+	else
+	{
+		<div class="input-group d-flex flex-nowrap">
+			<input class="@DefaultClass form-control-sm @InputCssClass" type="number" value="@Value"
+				   style="@(MaxWidth != 0 ? string.Format("max-width: {0}px", (object) this.MaxWidth) : "")"
+				   @onchange="@UpdateValue" step="any">
+		</div>
+		<div class="input-group-append">
+			<button type="button" class="btn btn-sm btn-outline-secondary @ApplyButtonCssClass" @onclick="@ApplyFilterEvent">
+				<i class="fas fa-check"></i>
+			</button>
+		</div>
+	}
+}
+else
+{
+	<input class="@DefaultClass form-control-sm @InputCssClass" type="number" value="@Value"
+		   style="@(MaxWidth != 0 ? string.Format("max-width: {0}px", (object) this.MaxWidth) : "")"
+		   @onchange="@UpdateValue" step="any">
+}
+
+@code {
+	private TFloatingPoint minValue;
+	private TFloatingPoint maxValue;
+
+	[Parameter] public TFloatingPoint Value { get; set; }
+	[Parameter] public EventCallback<ValueChangedEventArgs> OnValueChangedEvent { get; set; }
+	[Parameter] public string DefaultClass { get; set; } = "form-control";
+	[Parameter] public bool IncludeApply { get; set; } = false;
+	[Parameter] public bool IsApplied { get; set; } = false;
+	[Parameter] public string AppliedText { get; set; } = "";
+	[Parameter] public string InputCssClass { get; set; } = "";
+	[Parameter] public string ApplyButtonCssClass { get; set; } = "";
+	[Parameter] public Dictionary<string, object> Attributes { get; set; }
+	[Parameter] public int MaxWidth { get; set; }
+	[Parameter] public EventCallback<MouseEventArgs> ApplyFilterEvent { get; set; }
+	[Parameter] public EventCallback<MouseEventArgs> UnApplyFilterEvent { get; set; }
+
+	private async Task UpdateValue(ChangeEventArgs args)
+	{
+		Value = (TFloatingPoint)Convert.ChangeType((object)args.Value.ToString(), typeof(TFloatingPoint));
+		await this.OnValueChangedEvent.InvokeAsync(new ValueChangedEventArgs((object)this.Value));
+	}
+}

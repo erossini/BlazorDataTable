@@ -1,0 +1,39 @@
+﻿@if (IncludeSearchButton)
+{
+    <button class="btn btn-light btn-sm rounded-circle align-baseline">
+        <i class="fas fa-search"></i>
+    </button>
+}
+
+@if (IncludeToggleFilters)
+{
+    @if (ShowHeaderFilters)
+    {
+        <button class="btn btn-light btn-sm rounded-circle align-baseline">
+            <i class="fas fa-minus" @onclick="(e) => ShowHeaderFiltersChangedEvent.InvokeAsync(false)"></i>
+        </button>
+    }
+    else
+    {
+        <button class="btn btn-light btn-sm rounded-circle align-baseline">
+            <i class="fas fa-plus" @onclick="(e) => ShowHeaderFiltersChangedEvent.InvokeAsync(true)"></i>
+        </button>
+    }
+}
+
+@code {
+    [Parameter]
+    public bool IncludeSearchButton { get; set; } = false;
+
+    [Parameter]
+    public bool IncludeToggleFilters { get; set; } = false;
+
+    [Parameter]
+    public bool ShowHeaderFilters { get; set; } = true;
+
+    [Parameter]
+    public Func<Task> ApplyFilters { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ShowHeaderFiltersChangedEvent { get; set; }
+}

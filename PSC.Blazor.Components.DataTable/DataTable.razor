@@ -1,0 +1,593 @@
+﻿@using System.Text;
+@using System.Collections.ObjectModel;
+@using System.Linq.Dynamic.Core;
+@using System.Linq;
+@using System.Linq.Expressions;
+
+@inject IJSRuntime JSRuntime
+
+@typeparam TModel
+
+@{
+    var visibleColumns = Columns.Where(e => e.IsVisible).ToList();
+}
+
+@if (Columns.Any(e => e.IsFilterable))
+{
+    <DataTableActions IncludeSearchButton="IncludeSearchButton"
+                      IncludeToggleFilters="IncludeToggleFilters"
+                      ShowHeaderFilters="ShowHeaderFilters"
+                      ApplyFilters="ApplyFilters"
+                      ShowHeaderFiltersChangedEvent="(showHeaderFilters) => ShowHeaderFilters = showHeaderFilters" />
+}
+
+<CascadingValue Value="this">
+    <div class="@ContainerCssClass" style='@(UsePaging ? "" : $"overflow: auto; height: {ContainerHeight}{ContainerHeightUnit.Name}; position: relative;") '>
+
+        <table id="@Id" class="@CssClass @GetTableStyleCssClasses()" @attributes="TableAttributes">
+            <thead>
+                <tr>
+                    @foreach (DataTableColumn<TModel> column in visibleColumns)
+                    {
+                        <th class="@column.CssClass" style='vertical-align: top; @GetTableHeaderBorderStyle() @(column.GetColumnHeaderStyle())' id="@column.Guid.ToString();" nowrap>
+                            @if (column.HeaderTemplate != null)
+                            {
+                                <span style="cursor: pointer" @onclick="(args) => OnColumnHeaderClickedEvent(args, column)">@column.HeaderTemplate(column.CustomTitle != null ? column.CustomTitle : column.GetColumnVisualPropertyName())</span>
+                            }
+                            else if (column.CustomTitle != null)
+                            {
+                                <span style="cursor: pointer" @onclick="(args) => OnColumnHeaderClickedEvent(args, column)">@column.CustomTitle</span>
+                            }
+                            else
+                            {
+                                <span style="cursor: pointer" @onclick="(args) => OnColumnHeaderClickedEvent(args, column)">@column.GetColumnVisualPropertyName()</span>
+                            }
+
+                            <div class="d-inline-block">
+                                @if (column.IsSortable)
+                                {
+                                    @if (SortColumnGuid.HasValue && column.Guid == SortColumnGuid.Value)
+                                    {
+                                        @if (SortDirection == SortDirection.Descending)
+                                        {
+                                            <i class="fas fa-sort-alpha-up fas-small" @onclick="(args) => OnColumnHeaderClickedEvent(args, column)"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-sort-alpha-down fas-small" @onclick="(args) => OnColumnHeaderClickedEvent(args, column)"></i>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-arrows-alt-v fas-small" @onclick="(args) => OnColumnHeaderClickedEvent(args, column)"></i>
+                                    }
+                                }
+
+                                @if (column.IsFilterable && IncludeAdvancedFilters)
+                                {
+                                    <i class="fas fa-filter fas-small" @onclick="(args) => OnColumnFilterClickedEvent(args, column)"></i>
+
+                                    int count = FilterRules.Count(e => e.IsApplied && e.Column.Guid == column.Guid);
+
+                                    @if (count > 0)
+                                    {
+                                        <span class="badge badge-light filter-badge">@count</span>
+                                    }
+                                }
+                            </div>
+
+                            @if (IncludeHeaderFilters && ShowHeaderFilters && HeaderFilterRules.SingleOrDefault(e => e.Column.Guid == column.Guid) != null)
+                            {
+                                <div>
+                                    <DataTableFilterInput TModel="TModel"
+                                                          IsHeaderRule="true"
+                                                          FilterRule="HeaderFilterRules.Single(e => e.Column.Guid == column.Guid)"
+                                                          ApplyFilter="ApplyFilter"
+                                                          UnApplyFilter="UnApplyFilter"
+                                                          Attributes="column.HeaderFilterAttributes"
+                                                          ApplyButtonCssClass="@ApplyButtonCssClass"
+                                                          InputCssClass="@InputCssClass"
+                                                          DateTimeFormat="@column.DateTimeFormat"
+                                                          MaxWidth="@column.MaxWidth" />
+                                </div>
+                            }
+                        </th>
+                    }
+                </tr>
+            </thead>
+
+            @if (UsePaging)
+            {
+                <tbody>
+                    @if (Items.Count == 0 && IsLoading)
+                    {
+                        <Spinner IsLoading="true" />
+                    }
+                    else if (Items.Count == 0)
+                    {
+                        <p>@EmptyGridText</p>
+                    }
+                    else
+                    {
+                        @foreach (var item in Items)
+                        {
+                            <tr id="@item.GetHashCode()" class='@(AllowRowSelection && item.Equals(SelectedItem) ? SelectedItemCssClass : "")' style="@(AllowRowSelection ? " cursor: pointer;" : "" )" @onclick="(args) => OnRowClickedEvent(args, item)" @attributes="RowAttributes">
+                                @foreach (DataTableColumn<TModel> column in Columns)
+                                {
+                                    if (column.RowTemplate != null)
+                                    {
+                                        <td style=" @GetTableDataRowBorderStyle() @column.GetColumnRowDataStyle()">@column.RowTemplate(item)</td>
+                                    }
+                                    else if (column.ChildContent != null)
+                                    {
+                                        <td style=" @GetTableDataRowBorderStyle() @column.GetColumnRowDataStyle()">@column.ChildContent</td>
+                                    }
+                                    else if (column.Property != null)
+                                    {
+                                        var expression = column.Property.Compile();
+                                        var result = expression.DynamicInvoke(item);
+                                        <td style=" @GetTableDataRowBorderStyle() @column.GetColumnRowDataStyle()">@result</td>
+                                    }
+                                    else
+                                    {
+                                        <td style="@GetTableDataRowBorderStyle() @column.GetColumnRowDataStyle()"></td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            }
+            else
+            {
+                @if (Items.Count == 0 && IsLoading)
+                {
+                    <Spinner IsLoading="true" />
+                }
+                else if (Items.Count == 0)
+                {
+                    <p>@EmptyGridText</p>
+                }
+
+                <Virtualize TModel="TModel" TagName="tbody" ItemHeight="@GetItemHeight()" Items="Items" Context="item">
+                    <tr id="@item.GetHashCode()" class='@(AllowRowSelection && item.Equals(SelectedItem) ? SelectedItemCssClass : "")' @onclick="(args) => OnRowClickedEvent(args, item)" style="height: 25px; @(AllowRowSelection ? " cursor: pointer;" : "" )" @attributes="RowAttributes">
+
+                        @foreach (DataTableColumn<TModel> column in visibleColumns)
+                        {
+                            if (column.RowTemplate != null)
+                            {
+                                <td style="height: 25px; @GetTableDataRowBorderStyle() @column.GetColumnRowDataStyle()">@column.RowTemplate(item)</td>
+                            }
+                            else if (column.ChildContent != null)
+                            {
+                                <td style="height: 25px; @GetTableDataRowBorderStyle() @column.GetColumnRowDataStyle()">@column.ChildContent</td>
+                            }
+                            else if (column.Property != null)
+                            {
+                                var expression = column.Property.Compile();
+                                var result = expression.DynamicInvoke(item);
+                                <td style="height: 25px; @GetTableDataRowBorderStyle() @column.GetColumnRowDataStyle()">@result</td>
+                            }
+                            else
+                            {
+                                <td style="height: 25px; @GetTableDataRowBorderStyle() @column.GetColumnRowDataStyle()"></td>
+                            }
+                        }
+                    </tr>
+                </Virtualize>
+            }
+        </table>
+
+        @if (UsePaging)
+        {
+            <Paging PageCount="PageCount"
+                    ActivePageNumber="PageNumber"
+                    GoToPageEvent="OnGoToPageEvent"
+                    PageSizeChangedEvent="OnPageSizeEvent"
+                    PageSize="PageSize" />
+        }
+    </div>
+
+    @ChildContent
+</CascadingValue>
+
+<DataTableFilterRulesModal ModalId="@modalId.ToString()"
+                           TModel="TModel"
+                           FilterRules="FilterRules"
+                           RemoveUnusedFilters="RemoveUnusedFilters"
+                           RemoveFilterRule="RemoveFilterRule"
+                           ApplyFilter="ApplyFilter"
+                           ApplyFilters="ApplyFilters"
+                           AddFilterRule="AddFilterRule"
+                           FilterableColumnProperties="FilterableColumnProperties"
+                           SelectedPropertyForFilterRuleChanged="OnSelectedPropertyForFilterRuleChanged"
+                           ApplyButtonCssClass="@ApplyButtonCssClass"
+                           InputCssClass="@InputCssClass"
+                           UnApplyFilter="UnApplyFilter" />
+
+@code {
+    [Parameter]
+    public IList<TModel> Items { get; set; } = new List<TModel>();
+
+    [Parameter]
+    public string Id { get; set; } = "";
+
+    [Parameter]
+    public string ContainerCssClass { get; set; } = "table-responsive";
+
+    [Parameter]
+    public string CssClass { get; set; } = "table";
+
+    [Parameter]
+    public TableStyle Styles { get; set; }
+
+    [Parameter]
+    public Dictionary<string, object>? TableAttributes { get; set; }
+
+    [Parameter]
+    public Dictionary<string, object>? RowAttributes { get; set; } //Put this on DataTableColumn?
+
+    [Parameter]
+    public bool UsePaging { get; set; }
+
+    [Parameter]
+    public int PageNumber { get; set; } = 1;
+
+    [Parameter]
+    public int PageSize { get; set; } = 10;
+
+    [Parameter]
+    public int PageCount { get; set; } = 1;
+
+    [Parameter]
+    public Func<RequestArgs<TModel>, Task>? FetchData { get; set; }
+
+    [Parameter]
+    public bool ShowHeaderFilters { get; set; } = true;
+
+    /// <summary>
+    /// The height of the table container (default px)
+    /// </summary>
+    [Parameter]
+    public int ContainerHeight { get; set; } = 300;
+
+    /// <summary>
+    /// Css unit of the ContainerHeight property (default px)
+    /// </summary>
+    [Parameter]
+    public CssUnit ContainerHeightUnit { get; set; } = CssUnit.Px;
+
+    [Parameter]
+    public bool IncludeSearchButton { get; set; } = false;
+
+    [Parameter]
+    public bool IncludeToggleFilters { get; set; } = false;
+
+    /// <summary>
+    /// When true applying a value in a header filter will trigger a search
+    /// </summary>
+    [Parameter]
+    public bool SearchOnApplyHeaderFilter { get; set; } = true;
+
+    /// <summary>
+    /// Determines whether or not to automatically add a (non applied) filter to the modal, after pressing the filter button on a column (only when there are no applied filters).
+    /// </summary>
+    [Parameter]
+    public bool AutoAddFilterWhenClickedAndNoneActive { get; set; } = true;
+
+    [Parameter]
+    public bool AllowRowSelection { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<TModel> RowClickedEvent { get; set; }
+
+    [Parameter]
+    public TModel SelectedItem { get; set; }
+
+    [Parameter]
+    public string SelectedItemCssClass { get; set; } = "bg-info";
+
+    [Parameter]
+    public string EmptyGridText { get; set; } = "No records to show";
+
+    [Parameter]
+    public bool IsLoading { get; set; } = false;
+
+    [Parameter]
+    public bool IncludeHeaderFilters { get; set; } = false;
+
+    [Parameter]
+    public string ApplyButtonCssClass { get; set; }
+
+    [Parameter]
+    public string InputCssClass { get; set; } = "";
+
+    [Parameter]
+    public bool IncludeAdvancedFilters { get; set; } = true;
+
+    [Parameter]
+    public int? ItemHeight { get; set; }
+
+    // Might add this later, but the virtualization doesn't handle non pixels well
+    //[Parameter]
+    //public CssUnit ItemHeightUnit { get; set; } = CssUnit.Pixels;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private Guid modalId;
+
+    private IList<TModel> AllItems { get; set; } = new List<TModel>();
+
+    private Guid? SortColumnGuid { get; set; }
+    private SortDirection SortDirection { get; set; } = SortDirection.Ascending;
+    private string SortColumn { get; set; }
+
+    private Dictionary<Guid, string> FilterableColumnProperties = new Dictionary<Guid, string>();
+    private IList<FilterRule<TModel>> FilterRules { get; set; } = new List<FilterRule<TModel>>();
+    private IList<FilterRule<TModel>> HeaderFilterRules { get; set; } = new List<FilterRule<TModel>>();
+    private IList<DataTableColumn<TModel>> Columns { get; set; } = new List<DataTableColumn<TModel>>();
+
+    public void AddColumn(DataTableColumn<TModel> column)
+    {
+        Columns.Add(column);
+
+        if (column.IsDefaultSortColumn)
+        {
+            SortColumnGuid = column.Guid;
+            SortDirection = column.DefaultSortDirection;
+            SortColumn = column.GetColumnVisualPropertyName();
+        }
+
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        modalId = Guid.NewGuid();
+        if (Items == null) Items = new List<TModel>();
+        AllItems = Items;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (FetchData != null && (AllItems.Count == 0) && Columns.Count > 0) await FetchData.Invoke(new RequestArgs<TModel>(PageNumber, PageSize, SortDirection, SortColumn, FilterRules));
+            else if (UsePaging && FetchData == null) await PerformClientSideDataManipulations();
+
+            foreach (DataTableColumn<TModel> column in Columns)
+            {
+                if (column.CustomTitle != null && column.IsFilterable) FilterableColumnProperties.Add(column.Guid, column.CustomTitle);
+                else if (column.IsFilterable) FilterableColumnProperties.Add(column.Guid, column.GetColumnVisualPropertyName());
+                if (IncludeHeaderFilters)
+                {
+                    @if (!column.IsFilterable && !column.HeaderFilterAttributes.ContainsKey("disabled")) column.HeaderFilterAttributes.Add("disabled", "");
+                    HeaderFilterRules.Add(new FilterRule<TModel>(column, column.PropertyType, column.GetColumnVisualPropertyName(), column.HeaderFilterType));
+                }
+                column.StateChanged += ColumnStateChanged;
+            }
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        foreach (DataTableColumn<TModel> column in Columns)
+        {
+            column.StateChanged -= ColumnStateChanged;
+        }
+        Columns.Clear();
+    }
+
+    private string GetTableStyleCssClasses()
+    {
+        StringBuilder classes = new StringBuilder();
+
+        Styles.ToString().Split(',').Where(e => !string.IsNullOrEmpty(e.ToLower())).ToList().ForEach(e => classes.Append($"table-{e.Trim().ToLower()} "));
+
+        return classes.ToString();
+    }
+
+    private string GetTableHeaderBorderStyle()
+    {
+        // TODO: Optimize, cleanup
+        string style = "background-color: " + (Styles.HasFlag(TableStyle.Dark) ? "black;" : "white;");
+        if (Styles.HasFlag(TableStyle.Bordered)) return "box-shadow: inset 1px 1px #dee2e6, 1px 1px #dee2e6; border: none;" + style;
+        else if (Styles.HasFlag(TableStyle.Borderless)) return style;
+        else return "box-shadow: inset 0px 1px #dee2e6, 0 1px #dee2e6;" + style;
+    }
+
+    private string GetTableWidthStyle(DataTableColumn<TModel> column) => $"min-width: {column.MinWidthHeader}{column.MinWidthHeaderUnit};";
+
+    private string GetTableDataRowBorderStyle()
+    {
+        // TODO: Optimize, cleanup
+        string style = "";
+        if (AllowRowSelection) style += "cursor: pointer;";
+        if (Styles.HasFlag(TableStyle.Bordered)) return "box-shadow: inset 1px -1px #dee2e6; border: none;";
+        else if (Styles.HasFlag(TableStyle.Borderless)) return "";
+        else return "box-shadow: inset 0px -1px #dee2e6;";
+    }
+
+    private int GetItemHeight()
+    {
+        if (ItemHeight.HasValue) return ItemHeight.Value;
+        if (Styles.HasFlag(TableStyle.Sm)) return 25;
+        else return 90;
+    }
+
+    private async Task OnColumnHeaderClickedEvent(MouseEventArgs clickEvent, DataTableColumn<TModel> column)
+    {
+        if (!column.IsSortable) return;
+
+        // 1. It is the column currently sorted on, so all we do is change the SortDirection
+        if (column.Guid == SortColumnGuid)
+        {
+            if (SortDirection == SortDirection.Ascending) SortDirection = SortDirection.Descending;
+            else SortDirection = SortDirection.Ascending;
+        }
+
+        // 2. It is a different column, so all we do is change the SortColumn
+        else
+        {
+            SortColumnGuid = column.Guid;
+            SortColumn = column.GetColumnPropertyName();
+        }
+
+        // Server or client side
+        if (FetchData == null)
+        {
+            if (UsePaging) await PerformClientSideDataManipulations();
+            else Items = Items.AsQueryable().OrderBy($"{SortColumn} {SortDirection.ToString().ToLower()}").ToList();
+            StateHasChanged();
+        }
+        else await FetchData.Invoke(new RequestArgs<TModel>(PageNumber, PageSize, SortDirection, SortColumn, FilterRules));
+
+        StateHasChanged();
+    }
+
+    private async Task OnGoToPageEvent(int pageNr)
+    {
+        PageNumber = pageNr;
+        if (FetchData == null) await PerformClientSideDataManipulations();
+        else await FetchData.Invoke(new RequestArgs<TModel>(PageNumber, PageSize, SortDirection, SortColumn, FilterRules));
+        StateHasChanged();
+    }
+    
+    private async Task OnPageSizeEvent(int pageSize)
+    {
+        PageSize = pageSize;
+        if (FetchData == null) await PerformClientSideDataManipulations();
+        else await FetchData.Invoke(new RequestArgs<TModel>(PageNumber, PageSize, SortDirection, SortColumn, FilterRules));
+        StateHasChanged();
+    }
+
+    private async Task OnColumnFilterClickedEvent(MouseEventArgs clickEvent, DataTableColumn<TModel> column)
+    {
+        RemoveUnusedFilters();
+        await JSRuntime.InvokeVoidAsync("openModal", new string[] { modalId.ToString() });
+        if (FilterRules.Count == 0 && AutoAddFilterWhenClickedAndNoneActive) AddFilterRule(column);
+    }
+
+    private void AddFilterRule(DataTableColumn<TModel>? column = null)
+    {
+        if (column == null) column = Columns.First(e => e.IsFilterable);
+        FilterRules.Add(new FilterRule<TModel>(column, column.PropertyType, column.GetColumnVisualPropertyName(), ObjectFilter.IsEquals));
+        StateHasChanged();
+    }
+
+    private void RemoveFilterRule(Guid guid)
+    {
+        FilterRule<TModel>? filterRuleToDelete = FilterRules.SingleOrDefault(e => e.Guid == guid);
+        if (filterRuleToDelete != null)
+        {
+            FilterRules.Remove(filterRuleToDelete);
+            PageNumber = 1;
+        }
+    }
+
+    /// <summary>
+    /// Used to clear filters that aren't applied
+    /// </summary>
+    private void RemoveUnusedFilters()
+    {
+        FilterRules = FilterRules.Where(e => e.IsApplied).ToList();
+        JSRuntime.InvokeVoidAsync("closeModal", new string[] { modalId.ToString() });
+    }
+
+    private void OnSelectedPropertyForFilterRuleChanged(ChangeEventArgs args, FilterRule<TModel> filterRule)
+    {
+        Guid columnGuid = Guid.Parse(args.Value.ToString());
+        var newlySelectedColumn = Columns.Single(e => e.Guid == columnGuid);
+        filterRule.UpdateFilterProperty(newlySelectedColumn, newlySelectedColumn.PropertyType, newlySelectedColumn.GetColumnVisualPropertyName());
+    }
+
+    private async Task ApplyFilters()
+    {
+        RemoveUnusedFilters();
+
+        if (FetchData == null) await PerformClientSideDataManipulations();
+        else await FetchData.Invoke(new RequestArgs<TModel>(PageNumber, PageSize, SortDirection, SortColumn, FilterRules.Concat(HeaderFilterRules.Where(e => e.IsApplied)).ToList()));
+
+        JSRuntime.InvokeVoidAsync("closeModal", new string[] { modalId.ToString() });
+        StateHasChanged();
+    }
+
+    private async Task ApplyFilter(Guid filterRuleGiud, bool isHeaderRule = false)
+    {
+        if (isHeaderRule)
+        {
+            HeaderFilterRules.Single(e => e.Guid == filterRuleGiud).IsApplied = true;
+            if (SearchOnApplyHeaderFilter) await ApplyFilters();
+        }
+        else FilterRules.Single(e => e.Guid == filterRuleGiud).IsApplied = true;
+
+        PageNumber = 1;
+    }
+
+    private async Task UnApplyFilter(Guid filterRuleGiud, bool isHeaderRule = false)
+    {
+        if (isHeaderRule)
+        {
+            HeaderFilterRules.Single(e => e.Guid == filterRuleGiud).IsApplied = false;
+            if (SearchOnApplyHeaderFilter) await ApplyFilters();
+        }
+        else FilterRules.Single(e => e.Guid == filterRuleGiud).IsApplied = false;
+
+        PageNumber = 1;
+    }
+
+    private Task PerformClientSideDataManipulations()
+    {
+        bool useFilteredResult = false;
+        List<FilterRule<TModel>> AllFilterRules = FilterRules.Concat(HeaderFilterRules.Where(e => e.IsApplied)).ToList();
+
+        if (AllFilterRules.Count == 0) Items = AllItems;
+        else
+        {
+            Expression<Func<TModel, bool>>? filterExpression = null;
+
+            foreach (var filterRule in AllFilterRules)
+            {
+                var filterRuleExpression = filterRule.GenerateExpression();
+
+                if (filterExpression == null) filterExpression = filterRuleExpression;
+                else filterExpression = PredicateBuilder.And(filterExpression, filterRuleExpression);
+            }
+
+            Items = AllItems.AsQueryable().Where(filterExpression).ToList();
+
+            useFilteredResult = true;
+        }
+
+        if (UsePaging)
+        {
+            Models.PagedResult<TModel>? pagedResult = null;
+
+            if (useFilteredResult) pagedResult = Utils.ApplyPaging(Items.AsQueryable(), new Pager(PageNumber, PageSize, SortColumn, SortDirection));
+            else pagedResult = Utils.ApplyPaging(AllItems.AsQueryable(), new Pager(PageNumber, PageSize, SortColumn, SortDirection));
+
+            Items = pagedResult.Data;
+            PageCount = pagedResult.Paging.PageCount;
+        }
+
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    private async Task OnRowClickedEvent(MouseEventArgs args, TModel item)
+    {
+        SelectedItem = item;
+        await RowClickedEvent.InvokeAsync(item);
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Event handler for when certain important properties of the column change
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void ColumnStateChanged(Object? sender, EventArgs args) => StateHasChanged();
+}

@@ -1,0 +1,74 @@
+﻿@if (IncludeApply)
+{
+	if (IsApplied)
+	{
+		<AppliedInputValue AppliedText="@AppliedText" UnApplyFilterEvent="@UnApplyFilterEvent" MaxWidth="@MaxWidth" />
+	}
+	else
+	{
+		<div class="input-group d-flex flex-nowrap">
+			<input class="@DefaultClass form-control-sm @InputCssClass" type="datetime-local" value="@Value.ToString(DateTimeFormat.Format)"
+				   style="@(MaxWidth != 0 ? string.Format("max-width: {0}px", (object) this.MaxWidth) : "")"
+				   @onchange="@UpdateValue" step="1" />
+			<div class="input-group-append">
+				<button type="button" class="btn btn-sm btn-outline-secondary @ApplyButtonCssClass"
+						@onclick="@ApplyFilterEvent">
+					<i class="fas fa-check"></i>
+				</button>
+			</div>
+		</div>
+	}
+}
+else
+{
+	<input class="@DefaultClass form-control-sm @InputCssClass" type="datetime-local" value="@Value.ToString(DateTimeFormat.Format)"
+		   style="@(MaxWidth != 0 ? string.Format("max-width: {0}px", (object) this.MaxWidth) : "")"
+		   @onchange="@UpdateValue" step="1" />
+}
+
+@code {
+	[Parameter]
+	public DateTime Value { get; set; }
+
+	[Parameter]
+	public EventCallback<ValueChangedEventArgs> OnValueChangedEvent { get; set; }
+
+	[Parameter]
+	public string DefaultClass { get; set; } = "form-control";
+
+	[Parameter]
+	public bool IncludeApply { get; set; } = false;
+
+	[Parameter]
+	public bool IsApplied { get; set; } = false;
+
+	[Parameter]
+	public string AppliedText { get; set; } = "";
+
+	[Parameter]
+	public Dictionary<string, object> Attributes { get; set; }
+
+	[Parameter]
+	public string InputCssClass { get; set; } = "";
+
+	[Parameter]
+	public string ApplyButtonCssClass { get; set; } = "";
+
+	[Parameter]
+	public DateTimeFormat DateTimeFormat { get; set; } = DateTimeFormat.DateHourMinute;
+
+	[Parameter]
+	public int MaxWidth { get; set; }
+
+	[Parameter]
+	public EventCallback<MouseEventArgs> ApplyFilterEvent { get; set; }
+
+	[Parameter]
+	public EventCallback<MouseEventArgs> UnApplyFilterEvent { get; set; }
+
+	private async Task UpdateValue(ChangeEventArgs args)
+	{
+		this.Value = Convert.ToDateTime(args.Value?.ToString());
+		await this.OnValueChangedEvent.InvokeAsync(new ValueChangedEventArgs((object)this.Value));
+	}
+}

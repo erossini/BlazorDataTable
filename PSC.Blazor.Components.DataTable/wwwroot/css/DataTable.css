@@ -1,0 +1,54 @@
+﻿.paging {
+    flex-wrap: nowrap;
+}
+
+.pagesize-selector {
+    margin-right: 15px !important;
+}
+
+#pagination-first {
+    cursor: pointer;
+}
+
+#pagination-previous {
+    cursor: pointer;
+}
+
+#pagination-next {
+    cursor: pointer;
+}
+
+#pagination-last {
+    cursor: pointer;
+}
+
+.pagination-pageNr {
+    max-width: 53px;
+    min-width: 53px;
+}
+
+.fas-small {
+    font-size: 12px;
+    margin-left: 3px;
+}
+
+.fas-micro {
+    font-size: 8px;
+    margin-left: 3px;
+}
+
+.filter-badge {
+    padding: 0;
+    vertical-align: bottom;
+}
+
+.filter-rules-apply {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.filter-rules-apply-button {
+    float: right;
+    margin-right: -30px;
+    margin-top: -7px;
+}

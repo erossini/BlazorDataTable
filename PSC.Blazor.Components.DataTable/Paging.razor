@@ -1,0 +1,198 @@
+﻿<div class="input-group paging">
+	@if (IncludePageSizeSelect)
+	{
+		<div class="input-group-prepend">
+			<span class="input-group-text @PageNumberClass" id="pagination-pagenumber">Show record</span>
+		</div>
+
+		<div class="input-group-prepend pagesize-selector">
+			<select style="max-width: 50px;" value="@PageSize" @onchange="ChangePageSize">
+				<option value="10">10</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+			</select>
+		</div>
+	}
+
+	<div class="input-group-prepend" @onclick="@(() => this.GoToPage(1))">
+		<button class="btn @(ButtonClass)" id="pagination-first">
+			@if (UseLabelFirstButton)
+			{
+				@FirstPageButtonLabel
+			}
+			else
+			{
+				<i class="fas fa-angle-double-left"></i>
+			}
+		</button>
+	</div>
+	@if (IncludePrevButton)
+	{
+		<div class="input-group-prepend" @onclick="@(() => this.PreviousPage())">
+			<button class="btn @(ButtonClass)" id="pagination-previous">
+				@if (UseLabelPrevButton)
+				{
+					@PrevButtonLabel
+				}
+				else
+				{
+					<i class="fas fa-angle-left"></i>
+				}
+			</button>
+		</div>
+	}
+
+	<div class="input-group-prepend">
+		<span class="input-group-text @PageNumberClass" id="pagination-page">Page</span>
+	</div>
+
+	<input type="text" class="form-control pagination-pageNr" placeholder="pageNr"
+		   aria-label="pageNr" aria-describedby="pagination-pageNr" value="@ActivePageNumber"
+		   @onchange="@(e => this.GoToPage(Convert.ToInt32(e.Value.ToString())))" />
+
+	<div class="input-group-prepend">
+		<span class="input-group-text @PageNumberClass" id="pagination-page-count">of @PageCount</span>
+	</div>
+
+	@if (IncludeNextButton)
+	{
+		<div class="input-group-append" @onclick="@(() => this.NextPage())">
+			<button class="btn @ButtonClass" id="pagination-next">
+				@if (UseLabelNextButton)
+				{
+					@NextButtonLabel
+				}
+				else
+				{
+					<i class="fas fa-chevron-right"></i>
+				}
+			</button>
+		</div>
+	}
+
+	@if (IncludeLastButton)
+	{
+		<div class="input-group-append" @onclick="@(() => this.GoToPage(this.PageCount))">
+			<button class="btn @ButtonClass" id="pagination-last">
+				@if (UseLabelLastButton)
+				{
+					@LastPageButtonLabel
+				}
+				else
+				{
+					<i class="fas fa-angle-double-right"></i>
+				}
+			</button>
+		</div>
+	}
+</div>
+
+@code {
+	[Parameter]
+	public int PageCount { get; set; } = 1;
+
+	[Parameter]
+	public int ActivePageNumber { get; set; } = 1;
+
+	[Parameter]
+	public int PageSize { get; set; } = 25;
+
+	[Parameter]
+	public EventCallback<int> GoToPageEvent { get; set; }
+
+	[Parameter]
+	public EventCallback<int> PageSizeChangedEvent { get; set; }
+
+	[Parameter]
+	public string ButtonClass { get; set; } = "btn-light border";
+
+	[Parameter]
+	public string PageNumberClass { get; set; } = "bg-light border";
+
+	[Parameter]
+	public bool IncludeFirstButton { get; set; } = true;
+
+	[Parameter]
+	public bool IncludeLastButton { get; set; } = true;
+
+	[Parameter]
+	public bool UseLabelFirstButton { get; set; } = false;
+
+	[Parameter]
+	public bool UseLabelLastButton { get; set; } = false;
+
+	[Parameter]
+	public string FirstPageButtonLabel { get; set; } = "First";
+
+	[Parameter]
+	public string LastPageButtonLabel { get; set; } = "Last";
+
+	[Parameter]
+	public bool IncludeNextButton { get; set; } = true;
+
+	[Parameter]
+	public bool IncludePrevButton { get; set; } = true;
+
+	[Parameter]
+	public bool IncludePageSizeSelect { get; set; } = true;
+
+	[Parameter]
+	public bool UseLabelNextButton { get; set; } = false;
+
+	[Parameter]
+	public bool UseLabelPrevButton { get; set; } = false;
+
+	[Parameter]
+	public string NextButtonLabel { get; set; } = "Next";
+
+	[Parameter]
+	public string PrevButtonLabel { get; set; } = "Prev";
+
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+
+	private List<PagingItem> pagingItems = new List<PagingItem>();
+
+	internal void AddPagingItem(PagingItem pagingItem)
+	{
+		this.pagingItems.Add(pagingItem);
+		this.StateHasChanged();
+	}
+
+	private async Task ChangePageSize(ChangeEventArgs e) {
+		PageSize = Convert.ToInt16(e.Value.ToString());
+		await this.PageSizeChangedEvent.InvokeAsync(PageSize);
+	}
+
+	private async Task GoToPage(int pageNr)
+	{
+		if (pageNr <= this.PageCount && pageNr >= 1)
+		{
+			this.ActivePageNumber = pageNr;
+			this.StateHasChanged();
+		}
+		await this.GoToPageEvent.InvokeAsync(this.ActivePageNumber);
+	}
+
+	private async Task NextPage()
+	{
+		if (this.ActivePageNumber < this.PageCount)
+		{
+			++this.ActivePageNumber;
+			this.StateHasChanged();
+		}
+		await this.GoToPageEvent.InvokeAsync(this.ActivePageNumber);
+	}
+
+	private async Task PreviousPage()
+	{
+		if (this.ActivePageNumber > 1)
+		{
+			--this.ActivePageNumber;
+			this.StateHasChanged();
+		}
+		await this.GoToPageEvent.InvokeAsync(this.ActivePageNumber);
+	}
+
+	private string GetActiveCssClass(int pageNr) => this.ActivePageNumber != pageNr ? "" : "active";
+}
