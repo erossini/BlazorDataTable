@@ -556,7 +556,7 @@
                 else filterExpression = PredicateBuilder.And(filterExpression, filterRuleExpression);
             }
 
-            Items = AllItems.AsQueryable().Where(filterExpression).ToList();
+            Items = AllItems.Where(filterExpression).ToList();
 
             useFilteredResult = true;
         }
