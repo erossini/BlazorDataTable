@@ -21,9 +21,11 @@ DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/
 
    ```
    > dotnet add package PSC.Blazor.Components.DataTable
+   ```
    
-   OR
+   or
    
+   ```
    PM> Install-Package PSC.Blazor.Components.DataTable
    ```
    Use the `--version` option to specify a specific version to install.
