@@ -1,6 +1,9 @@
 # DataTable for Blazor
 DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/blazor-webassembly/) and [Blazor Server](https://www.puresourcecode.com/tag/blazor-server/) with support for client/server side paging, filtering and sorting. For more info and examples, please visit my blog [PureSourceCode.com](https://www.puresourcecode.com) at this [page](https://www.puresourcecode.com/dotnet/net-core/datatable-component-for-blazor/).
 
+## DataTable in action
+![DataTable-InAction](https://user-images.githubusercontent.com/9497415/141645639-117d52d7-acf7-4ef6-a360-9a9d2f1b8295.gif)
+
 ## Anatomy of DataTable
 
 ![DataTable basis](https://user-images.githubusercontent.com/9497415/141643172-d7696fef-c7fe-42e8-8555-3373a5a548d7.png)
@@ -13,8 +16,6 @@ DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/
 
 ### IncludeAdvancedFilters="true"
 ![Advanced filters](https://user-images.githubusercontent.com/9497415/141643811-2ab88b81-3ffb-4a80-a36e-cfd473e59f78.png)
-
-
 
 ## Installation
 1. Install the [NuGet](https://www.nuget.org/packages/PSC.Blazor.Components.DataTable/) package:
