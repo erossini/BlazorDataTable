@@ -36,6 +36,7 @@ DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/
 
    ```
    @using PSC.Blazor.Components.DataTable
+   @using PSC.Blazor.Components.DataTable.Enums
    @using PSC.Blazor.Components.DataTable.Models
    @using PSC.Blazor.Components.DataTable.EventsArgs
    ```
