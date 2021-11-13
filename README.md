@@ -277,7 +277,7 @@ public async Task SearchForecastAsync(RequestArgs<WeatherForecast> args)
     
     // Use the Core.Utils to easily apply paging and sorting
     // Or use the paging info in RequestArgs to build your own paging solution
-    pagedResult = Sve.Blazor.Core.Utils.ApplyPaging(result, pager);
+    pagedResult = Utils.ApplyPaging(result, pager);
 
     return Task.FromResult(pagedResult);
 }
