@@ -68,6 +68,7 @@ The component requires same external libraries to work properly:
 | --- | --- | --- | --- |
 | Items | IList | List | The list of items to display |
 | UsePaging | bool | false | Boolean indicating whether to use paging or not |
+| UsePageSizeSelector | bool | true | Boolean indicating hether to show the page size dropdown list (10, 25, 50 records) |
 | PageNumber | int | 1   | The number of the current page (only applicable when property UsePaging is true) |
 | PageSize | int | 10  | The amount of items shown on a page (only applicable when property UsePaging is true) |
 | PageCount | int | 1   | The total amount of pages (only applicable when property UsePaging is true) |
@@ -335,7 +336,7 @@ public async Task SearchForecastAsync(RequestArgs<WeatherForecast> args)
 *   [Write a reusable Blazor component](https://www.puresourcecode.com/dotnet/blazor/write-a-reusable-blazor-component/)
 *   [Getting Started With C# And Blazor](https://www.puresourcecode.com/dotnet/net-core/getting-started-with-c-and-blazor/)
 *   [Setting Up A Blazor WebAssembly Application](https://www.puresourcecode.com/dotnet/blazor/setting-up-a-blazor-webassembly-application/)
-*   [Working With Blazors Component Model](https://www.puresourcecode.com/dotnet/blazor/working-with-blazors-component-model/)
+*   [Working With Blazor Component Model](https://www.puresourcecode.com/dotnet/blazor/working-with-blazors-component-model/)
 *   [Secure Blazor WebAssembly With IdentityServer4](https://www.puresourcecode.com/dotnet/blazor/secure-blazor-webassembly-with-identityserver4/)
 *   [Blazor Using HttpClient With Authentication](https://www.puresourcecode.com/dotnet/blazor/blazor-using-httpclient-with-authentication/)
 *   [InputSelect component for enumerations in Blazor](https://www.puresourcecode.com/dotnet/blazor/inputselect-component-for-enumerations-in-blazor/)
