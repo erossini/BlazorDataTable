@@ -1,7 +1,22 @@
 # DataTable for Blazor
 DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/blazor-webassembly/) and [Blazor Server](https://www.puresourcecode.com/tag/blazor-server/) with support for client/server side paging, filtering and sorting. For more info and examples, please visit my blog [PureSourceCode.com](https://www.puresourcecode.com) at this [page](https://www.puresourcecode.com/dotnet/net-core/datatable-component-for-blazor/).
 
-### Installation
+## Anatomy of DataTable
+
+![DataTable basis](https://user-images.githubusercontent.com/9497415/141643172-d7696fef-c7fe-42e8-8555-3373a5a548d7.png)
+
+### IsLoading="true"
+![Loading](https://user-images.githubusercontent.com/9497415/141643293-42616c61-fa18-420d-8a9f-2b88a1b3b52e.png)
+
+### Header details 
+![Header details](https://user-images.githubusercontent.com/9497415/141643492-3f2403d0-46b7-49f0-8df1-2018f3d108ef.png)
+
+### IncludeAdvancedFilters="true"
+![Advanced filters](https://user-images.githubusercontent.com/9497415/141643811-2ab88b81-3ffb-4a80-a36e-cfd473e59f78.png)
+
+
+
+## Installation
 1. Install the [NuGet](https://www.nuget.org/packages/PSC.Blazor.Components.DataTable/) package:
 
    ```
@@ -320,7 +335,7 @@ public async Task SearchForecastAsync(RequestArgs<WeatherForecast> args)
 *   [Write a reusable Blazor component](https://www.puresourcecode.com/dotnet/blazor/write-a-reusable-blazor-component/)
 *   [Getting Started With C# And Blazor](https://www.puresourcecode.com/dotnet/net-core/getting-started-with-c-and-blazor/)
 *   [Setting Up A Blazor WebAssembly Application](https://www.puresourcecode.com/dotnet/blazor/setting-up-a-blazor-webassembly-application/)
-*   [Working With Blazor’s Component Model](https://www.puresourcecode.com/dotnet/blazor/working-with-blazors-component-model/)
+*   [Working With BlazorÂ’s Component Model](https://www.puresourcecode.com/dotnet/blazor/working-with-blazors-component-model/)
 *   [Secure Blazor WebAssembly With IdentityServer4](https://www.puresourcecode.com/dotnet/blazor/secure-blazor-webassembly-with-identityserver4/)
 *   [Blazor Using HttpClient With Authentication](https://www.puresourcecode.com/dotnet/blazor/blazor-using-httpclient-with-authentication/)
 *   [InputSelect component for enumerations in Blazor](https://www.puresourcecode.com/dotnet/blazor/inputselect-component-for-enumerations-in-blazor/)
