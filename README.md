@@ -152,21 +152,21 @@ The component requires same external libraries to work properly:
 <DataTable TModel="WeatherForecast"
            Items="forecasts">
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.Date" />
+                    Property="(e) => e.Date" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.TemperatureC"
+                    Property="(e) => e.TemperatureC"
                     CustomTitle="Celsius" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.TemperatureF"
+                    Property="(e) => e.TemperatureF"
                     CustomTitle="Fahrenheit" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.MyNullableInt" />
+                    Property="(e) => e.MyNullableInt" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.Summary" />
+                    Property="(e) => e.Summary" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.Country" />
+                    Property="(e) => e.Country" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.UpdatedRecently"
+                    Property="(e) => e.UpdatedRecently"
                     CustomTitle="Recently updated" />
 </DataTable>
 ```
@@ -177,21 +177,21 @@ The component requires same external libraries to work properly:
 <DataTable TModel="WeatherForecast"
            Items="forecasts">
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.Date" />
+                    Property="(e) => e.Date" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.TemperatureC"
+                    Property="(e) => e.TemperatureC"
                     CustomTitle="Celsius" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.TemperatureF"
+                    Property="(e) => e.TemperatureF"
                     CustomTitle="Fahrenheit" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.MyNullableInt" />
+                    Property="(e) => e.MyNullableInt" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.Summary" />
+                    Property="(e) => e.Summary" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.Country" />
+                    Property="(e) => e.Country" />
     <DataTableColumn TModel="WeatherForecast"
-                    Property="(e) =&gt; e.UpdatedRecently"
+                    Property="(e) => e.UpdatedRecently"
                     CustomTitle="Recently updated">
     <Template Context="forecast">
         @if (forecast.UpdatedRecently)
@@ -210,70 +210,172 @@ The component requires same external libraries to work properly:
 ### Sorting
 
 ```cs
-<DataTable TModel="WeatherForecast" Items="forecasts">
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" Property="(e) => e.Date"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" Property="(e) => e.TemperatureC" CustomTitle="Celsius"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" Property="(e) => e.MyNullableInt"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Summary"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" Property="(e) => e.Country"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated"/>
+<DataTable TModel="WeatherForecast"
+           Items="forecasts">
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    Property="(e) => e.Date" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    Property="(e) => e.TemperatureC"
+                    CustomTitle="Celsius" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    Property="(e) => e.TemperatureF"
+                    CustomTitle="Fahrenheit" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    Property="(e) => e.MyNullableInt" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) => e.Summary" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    Property="(e) => e.Country" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    Property="(e) => e.UpdatedRecently"
+                    CustomTitle="Recently updated" />
 </DataTable>
 ```
 
 ### Pagination
 
 ```cs
-<DataTable TModel="WeatherForecast" Items="forecasts" UsePaging="true">
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Date"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.TemperatureC" CustomTitle="Celsius"   />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit" />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.MyNullableInt"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Summary"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Country"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated"/>
+<DataTable TModel="WeatherForecast"
+           Items="forecasts"
+           UsePaging="true">
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) => e.Date" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) => e.TemperatureC"
+                    CustomTitle="Celsius" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) => e.TemperatureF"
+                    CustomTitle="Fahrenheit" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) => e.MyNullableInt" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) => e.Summary" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) => e.Country" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) => e.UpdatedRecently"
+                    CustomTitle="Recently updated" />
 </DataTable>
 ```
 
 ### Filtering
 
 ```cs
-<DataTable TModel="WeatherForecast" Items="forecasts">
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Date"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.TemperatureC" CustomTitle="Celsius"   />
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.MyNullableInt"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Summary"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Country"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated"/>
-    </DataTable>
+<DataTable TModel="WeatherForecast"
+           Items="forecasts">
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    Property="(e) => e.Date" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    Property="(e) => e.TemperatureC"
+                    CustomTitle="Celsius" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    Property="(e) => e.TemperatureF"
+                    CustomTitle="Fahrenheit" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    Property="(e) => e.MyNullableInt" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    Property="(e) => e.Summary" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    Property="(e) => e.Country" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    Property="(e) => e.UpdatedRecently"
+                    CustomTitle="Recently updated" />
+</DataTable>
 ```
 
 ### Header/Grid filters
 
 ```cs
-<DataTable TModel="WeatherForecast" Items="forecasts" SearchOnApplyHeaderFilter="true">
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" IncludeHeaderFilter="true" Property="(e) => e.Date"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" IncludeHeaderFilter="true" Property="(e) => e.TemperatureC" CustomTitle="Celsius"   />
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" IncludeHeaderFilter="true" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" IncludeHeaderFilter="true" Property="(e) => e.MyNullableInt"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" IncludeHeaderFilter="true" Property="(e) => e.Summary"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" IncludeHeaderFilter="true" Property="(e) => e.Country"/>
-    <DataTableColumn TModel="WeatherForecast" IsFilterable="true" IncludeHeaderFilter="true" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated"/>
-    </DataTable>
+<DataTable TModel="WeatherForecast"
+           Items="forecasts"
+           SearchOnApplyHeaderFilter="true">
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    IncludeHeaderFilter="true"
+                    Property="(e) => e.Date" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    IncludeHeaderFilter="true"
+                    Property="(e) => e.TemperatureC"
+                    CustomTitle="Celsius" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    IncludeHeaderFilter="true"
+                    Property="(e) => e.TemperatureF"
+                    CustomTitle="Fahrenheit" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    IncludeHeaderFilter="true"
+                    Property="(e) => e.MyNullableInt" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    IncludeHeaderFilter="true"
+                    Property="(e) => e.Summary" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    IncludeHeaderFilter="true"
+                    Property="(e) => e.Country" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsFilterable="true"
+                    IncludeHeaderFilter="true"
+                    Property="(e) => e.UpdatedRecently"
+                    CustomTitle="Recently updated" />
+</DataTable>
 ```
 
 ### Server side support
 
 ```cs
-<DataTable TModel="WeatherForecast" Items="pagedForecasts.Data" UsePaging="true" FetchData="DoFetchData" PageCount="@pagedForecasts.Paging.PageCount" PageSize="@pagedForecasts.Paging.PageSize">
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.Date"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.TemperatureC" CustomTitle="Celsius"   />
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.MyNullableInt"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.Summary"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.Country"/>
-    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated"/>
+<DataTable TModel="WeatherForecast"
+           Items="pagedForecasts.Data"
+           UsePaging="true"
+           FetchData="DoFetchData"
+           PageCount="@pagedForecasts.Paging.PageCount"
+           PageSize="@pagedForecasts.Paging.PageSize">
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    IsFilterable="true"
+                    Property="(e) => e.Date" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    IsFilterable="true"
+                    Property="(e) => e.TemperatureC"
+                    CustomTitle="Celsius" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    IsFilterable="true"
+                    Property="(e) => e.TemperatureF"
+                    CustomTitle="Fahrenheit" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    IsFilterable="true"
+                    Property="(e) => e.MyNullableInt" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    IsFilterable="true"
+                    Property="(e) => e.Summary" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    IsFilterable="true"
+                    Property="(e) => e.Country" />
+    <DataTableColumn TModel="WeatherForecast"
+                    IsSortable="true"
+                    IsFilterable="true"
+                    Property="(e) => e.UpdatedRecently"
+                    CustomTitle="Recently updated" />
 </DataTable>
 
 // Method will be called by the DataTable when necessary
@@ -349,12 +451,30 @@ public async Task SearchForecastAsync(RequestArgs<WeatherForecast> args)
 ### Alignment
 
 ```cs
-<DataTable TModel="WeatherForecast" Items="forecasts">
-    <DataTableColumn TModel="WeatherForecast" TextAlignment="Core.Models.TextAlignment.Center" IsSortable="true" Property="(e) => e.Date"/>
-    <DataTableColumn TModel="WeatherForecast" TextAlignment="Core.Models.TextAlignment.End" IsSortable="true" Property="(e) => e.TemperatureC" CustomTitle="Celsius"   />
-    <DataTableColumn TModel="WeatherForecast" TextAlignment="Core.Models.TextAlignment.Left" IsSortable="true" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit"/>
-    <DataTableColumn TModel="WeatherForecast" TextAlignment="Core.Models.TextAlignment.Right" IsSortable="true" Property="(e) => e.MyNullableInt"/>
-    <DataTableColumn TModel="WeatherForecast" TextAlignment="Core.Models.TextAlignment.Start" IsSortable="true" Property="(e) => e.Summary"/>
+<DataTable TModel="WeatherForecast"
+           Items="forecasts">
+    <DataTableColumn TModel="WeatherForecast"
+                    TextAlignment="Core.Models.TextAlignment.Center"
+                    IsSortable="true"
+                    Property="(e) => e.Date" />
+    <DataTableColumn TModel="WeatherForecast"
+                    TextAlignment="Core.Models.TextAlignment.End"
+                    IsSortable="true"
+                    Property="(e) => e.TemperatureC"
+                    CustomTitle="Celsius" />
+    <DataTableColumn TModel="WeatherForecast"
+                    TextAlignment="Core.Models.TextAlignment.Left"
+                    IsSortable="true"
+                    Property="(e) => e.TemperatureF"
+                    CustomTitle="Fahrenheit" />
+    <DataTableColumn TModel="WeatherForecast"
+                    TextAlignment="Core.Models.TextAlignment.Right"
+                    IsSortable="true"
+                    Property="(e) => e.MyNullableInt" />
+    <DataTableColumn TModel="WeatherForecast"
+                    TextAlignment="Core.Models.TextAlignment.Start"
+                    IsSortable="true"
+                    Property="(e) => e.Summary" />
 </DataTable>
 ```
 
