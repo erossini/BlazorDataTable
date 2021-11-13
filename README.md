@@ -149,38 +149,60 @@ The component requires same external libraries to work properly:
 ### Basic table
 
 ```cs
-<DataTable TModel="WeatherForecast" Items="forecasts">
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Date" />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.TemperatureC" CustomTitle="Celsius"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.MyNullableInt"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Summary"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Country"/>
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated"/>
+<DataTable TModel="WeatherForecast"
+           Items="forecasts">
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.Date" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.TemperatureC"
+                    CustomTitle="Celsius" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.TemperatureF"
+                    CustomTitle="Fahrenheit" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.MyNullableInt" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.Summary" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.Country" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.UpdatedRecently"
+                    CustomTitle="Recently updated" />
 </DataTable>
 ```
 
 ### Custom template
 
 ```cs
-<DataTable TModel="WeatherForecast" Items="forecasts">
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Date" />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.TemperatureC" CustomTitle="Celsius" />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit" />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.MyNullableInt" />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Summary" />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.Country" />
-    <DataTableColumn TModel="WeatherForecast" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated">
-        <Template Context="forecast">
-            @if (forecast.UpdatedRecently)
-            {
-                <i class="fas fa-check-circle" style="color: green;"></i>
-            }
-            else
-            {
-                <i class="far fa-times-circle" style="color: red;"></i>
-            }
-        </Template>
+<DataTable TModel="WeatherForecast"
+           Items="forecasts">
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.Date" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.TemperatureC"
+                    CustomTitle="Celsius" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.TemperatureF"
+                    CustomTitle="Fahrenheit" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.MyNullableInt" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.Summary" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.Country" />
+    <DataTableColumn TModel="WeatherForecast"
+                    Property="(e) =&gt; e.UpdatedRecently"
+                    CustomTitle="Recently updated">
+    <Template Context="forecast">
+        @if (forecast.UpdatedRecently)
+        {
+            <i class="fas fa-check-circle" style="color: green;" />
+        }
+        else
+        {
+            <i class="far fa-times-circle" style="color: red;" />
+        }
+            </Template>
     </DataTableColumn>
 </DataTable>
 ```
