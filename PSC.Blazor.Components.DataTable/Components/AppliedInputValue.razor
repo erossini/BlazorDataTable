@@ -1,0 +1,24 @@
+﻿<div class="badge badge-pill badge-light d-inline-block text-left d-flex"
+	 style="height: calc(1.5em + .75rem + 2px); @(this.MaxWidth != 0 ? string.Format("max-width: {0}px", (object) this.MaxWidth) : "")">
+	<span class="text-truncate d-inline-block align-middle pl-2" style="line-height: 2.2; white-space: pre;">
+		@AppliedText
+	</span>
+	<div class="btn-group ml-auto">
+		<button type="button"
+				class="btn" @onclick="@UnApplyFilterEvent"
+				style="line-height: 1.2; padding-top: 0;">
+			<i class="fas fa-pen"></i>
+		</button>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public string AppliedText { get; set; } = "";
+
+	[Parameter]
+	public int MaxWidth { get; set; }
+
+	[Parameter]
+	public EventCallback<MouseEventArgs> UnApplyFilterEvent { get; set; }
+}

@@ -1,0 +1,49 @@
+﻿@page "/filtering"
+
+@inject WeatherForecastService ForecastService
+
+<h1>Advanced filtering example</h1>
+
+@if (forecasts == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<DataTable TModel="WeatherForecast" Items="forecasts" IncludeAdvancedFilters="true">
+		<DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Date" />
+		<DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.TemperatureC" CustomTitle="Celsius" />
+		<DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit" />
+		<DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.MyNullableInt" />
+		<DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Summary" />
+		<DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Country" />
+		<DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated" />
+	</DataTable>
+}
+
+<div style="width: 100%; height: 25px;"></div>
+<hr />
+<h3>Code</h3>
+<p>
+	This is the code I use to create the DataTable above.
+</p>
+<CodeSnippet Language="xml">
+&lt;DataTable TModel="WeatherForecast" Items="forecasts" IncludeAdvancedFilters="true">
+  &lt;DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Date" />
+  &lt;DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.TemperatureC" CustomTitle="Celsius" />
+  &lt;DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit" />
+  &lt;DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.MyNullableInt" />
+  &lt;DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Summary" />
+  &lt;DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.Country" />
+  &lt;DataTableColumn TModel="WeatherForecast" IsFilterable="true" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated" />
+&lt;/DataTable>
+</CodeSnippet>
+
+@code {
+	private WeatherForecast[] forecasts;
+
+	protected override async Task OnInitializedAsync()
+	{
+		forecasts = await ForecastService.GetForecastAsync(DateTime.Now, 5);
+	}
+}

@@ -1,0 +1,182 @@
+﻿@typeparam TModel
+
+<div class="modal fade" id="@ModalId" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog mw-100 w-75" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Filter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="RemoveUnusedFilters">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    @foreach (FilterRule<TModel> filterRule in FilterRules)
+                    {
+                        <div class="row pt-2">
+                            @if (filterRule.IsApplied)
+                            {
+                                <div class="alert alert-success col-12 filter-rules-apply" role="alert">
+                                    @filterRule.GetAppliedFilterRuleText()
+
+                                    <div class="btn-group filter-rules-apply-button">
+                                        <button type="button" class="btn col-1" aria-label="Close" @onclick="(e) => RemoveFilterRule(filterRule.Guid)">
+                                            <i class="far fa-trash-alt fas-small"></i>
+                                        </button>
+
+                                        <button type="button" class="btn col-1" @onclick="(e) => filterRule.IsApplied = false">
+                                            <i class="fas fa-pen fas-small"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="input-group col-lg-4 col-md-4 col-sm-12">
+                                    <select class="custom-select custom-select-sm" @onchange="(args) => SelectedPropertyForFilterRuleChanged(args, filterRule)">
+                                        @foreach (var filterableColumnProperty in FilterableColumnProperties)
+                                        {
+                                            @if (filterRule.Column.Guid == filterableColumnProperty.Key)
+                                            {
+                                                <option selected value="@filterableColumnProperty.Key">@filterableColumnProperty.Value</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@filterableColumnProperty.Key">@filterableColumnProperty.Value</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="input-group col-lg-4 col-md-4 col-sm-12">
+                                    <select class="custom-select custom-select-sm" @onchange="(e) => filterRule.FilterType = ObjectFilter.FromDisplayName<ObjectFilter>(e.Value.ToString())">
+                                        @foreach (ObjectFilter objectFilter in ObjectFilter.GetAll<ObjectFilter>().ToList().Where(e => e.AllowsType(filterRule.ExpectedValueType) && (!filterRule.IsNullable ? e.IsNonNullableAllowed : true)))
+                                        {
+                                            @if (filterRule.FilterType.Id == objectFilter.Id)
+                                            {
+                                                <option selected value="@objectFilter.Name">@objectFilter.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@objectFilter.Name">@objectFilter.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="input-group col-lg-4 col-md-4 col-sm-12">
+                                    @if (filterRule.FilterType.ValueRequired)
+                                    {
+                                        <DataTableFilterInput TModel="TModel"
+                                                  IsHeaderRule="false"
+                                                  FilterRule="filterRule"
+                                                  ApplyFilter="ApplyFilter"
+                                                  UnApplyFilter="UnApplyFilter"
+                                                  Attributes="filterRule.Column.HeaderFilterAttributes"
+                                                  ApplyButtonCssClass="@ApplyButtonCssClass"
+                                                  InputCssClass="@InputCssClass"
+                                                  DateTimeFormat="filterRule.Column.DateTimeFormat" />
+                                    }
+
+                                    <button type="button" class="btn" @onclick="(e) => ApplyFilter(filterRule.Guid, false)">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+
+                                    <button type="button" class="btn" @onclick="(e) => RemoveFilterRule(filterRule.Guid)">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <button class="btn btn-light mt-2" @onclick="(e) => AddFilterRule(null)">
+                        <i class="far fa-plus-square"></i>
+                        Add filter
+                    </button>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal" @onclick="RemoveUnusedFilters">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="ApplyFilters">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+	/// <summary>
+    /// Gets or sets the Id for the Modal dialog
+    /// </summary>
+    [Parameter]
+    public string ModalId { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the CSS class for the Apply button
+    /// </summary>
+    [Parameter]
+    public string ApplyButtonCssClass { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the CSS class for the tag input
+    /// </summary>
+    [Parameter]
+    public string InputCssClass { get; set; } = "";
+    	
+	/// <summary>
+    /// Gets or sets the action to unapply filters
+    /// </summary>
+    [Parameter]
+    public Func<Guid, bool, Task> UnApplyFilter { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the text for the next page
+    /// </summary>
+    [Parameter]
+    public IList<FilterRule<TModel>> FilterRules { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the filterable column properties
+    /// </summary>
+    [Parameter]
+    public Dictionary<Guid, string> FilterableColumnProperties { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the action when a selected property for a filter rule changes
+    /// </summary>
+    [Parameter]
+    public Action<ChangeEventArgs, FilterRule<TModel>> SelectedPropertyForFilterRuleChanged { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the task to call for applying filters
+    /// </summary>
+    [Parameter]
+    public Func<Task> ApplyFilters { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the function to call for applying a filter
+    /// </summary>
+    [Parameter]
+    public Func<Guid, bool, Task> ApplyFilter { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the action to call to add a new filter
+    /// </summary>
+    [Parameter]
+    public Action<DataTableColumn<TModel>?> AddFilterRule { get; set; }
+	
+	/// <summary>
+    /// Gets or sets the action to call to remove unused filters
+    /// </summary>
+    [Parameter]
+    public Action RemoveUnusedFilters { get; set; }
+    	
+	/// <summary>
+    /// Gets or sets the action to call to remove a filter
+    /// </summary>
+    [Parameter]
+    public Action<Guid> RemoveFilterRule { get; set; }
+}

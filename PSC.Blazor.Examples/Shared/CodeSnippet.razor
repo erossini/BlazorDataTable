@@ -1,0 +1,15 @@
+﻿<pre class="code"><code class="@Language">
+@ChildContent
+</code></pre>
+
+@code {
+    [Inject] private IJSRuntime _js { get; set; }
+        
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string Language { get; set; } = "csharp";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _js.InvokeVoidAsync("highlightSnippet");
+    }
+}

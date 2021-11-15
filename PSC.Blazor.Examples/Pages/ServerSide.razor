@@ -1,0 +1,39 @@
+﻿@page "/serverside"
+
+@inject WeatherForecastService ForecastService
+
+<h1>Server side example</h1>
+<span>Sorting, paging and filtering are all being done on the server</span>
+
+<DataTable TModel="WeatherForecast" Items="pagedForecasts.Data" UsePaging="true" FetchData="DoFetchData" IsLoading="IsLoading"
+    PageCount="@pagedForecasts.Paging.PageCount" PageSize="@pagedForecasts.Paging.PageSize" IncludeHeaderFilters="true" IncludeAdvancedFilters="true">
+    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.Date"/>
+    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.TemperatureC" CustomTitle="Celsius"   />
+    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit"/>
+    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.MyNullableInt"/>
+    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.Summary"/>
+    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.Country"/>
+    <DataTableColumn TModel="WeatherForecast" IsSortable="true" IsFilterable="true" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated"/>
+</DataTable>
+
+@code {
+    private bool IsLoading = true;
+    private bool firstFetch = true;
+
+    private PagedResult<WeatherForecast> pagedForecasts = new PagedResult<WeatherForecast>(new List<WeatherForecast>(), pageNumber: 1, pageSize: 10, 0);
+
+    private async Task DoFetchData(RequestArgs<WeatherForecast> args)
+    {
+        IsLoading = true;
+
+        if (firstFetch)
+        {
+            pagedForecasts = await ForecastService.SearchForecastAsync(null, 1000);
+            firstFetch = false;
+        }
+        else pagedForecasts = await ForecastService.SearchForecastAsync(args, 1000);
+
+        IsLoading = false;
+        StateHasChanged();
+    }
+}

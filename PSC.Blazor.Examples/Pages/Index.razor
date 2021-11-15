@@ -1,0 +1,568 @@
+﻿@page "/"
+
+<h1>DataTable for Blazor</h1>
+
+<p>
+    DataTable component for <a href="https://www.puresourcecode.com/tag/blazor-webassembly/">Blazor WebAssembly</a> and
+    <a href="https://www.puresourcecode.com/tag/blazor-server/" rel="nofollow">Blazor Server</a> with support for client/server side paging,
+    filtering and sorting. For more info and examples, please visit my blog
+    <a href="https://www.puresourcecode.com/">PureSourceCode.com</a> at this
+    <a href="https://www.puresourcecode.com/dotnet/net-core/datatable-component-for-blazor/" rel="nofollow">page</a>.
+</p>
+
+<h2><a href="https://github.com/erossini/BlazorDataTable#datatable-in-action"></a>DataTable in action</h2>
+<p><a href="https://user-images.githubusercontent.com/9497415/141645639-117d52d7-acf7-4ef6-a360-9a9d2f1b8295.gif" target="_blank" rel="noopener noreferrer"><img style="max-width: 100%" src="https://user-images.githubusercontent.com/9497415/141645639-117d52d7-acf7-4ef6-a360-9a9d2f1b8295.gif" alt="DataTable-InAction" /></a></p>
+<h2><a href="https://github.com/erossini/BlazorDataTable#anatomy-of-datatable"></a>Anatomy of DataTable</h2>
+<p><a href="https://user-images.githubusercontent.com/9497415/141643172-d7696fef-c7fe-42e8-8555-3373a5a548d7.png" target="_blank" rel="noopener noreferrer"><img style="max-width: 100%" src="https://user-images.githubusercontent.com/9497415/141643172-d7696fef-c7fe-42e8-8555-3373a5a548d7.png" alt="DataTable basis" /></a></p>
+<h3><a href="https://github.com/erossini/BlazorDataTable#isloadingtrue"></a>IsLoading="true"</h3>
+<p><a href="https://user-images.githubusercontent.com/9497415/141643293-42616c61-fa18-420d-8a9f-2b88a1b3b52e.png" target="_blank" rel="noopener noreferrer"><img style="max-width: 100%" src="https://user-images.githubusercontent.com/9497415/141643293-42616c61-fa18-420d-8a9f-2b88a1b3b52e.png" alt="Loading" /></a></p>
+<h3><a href="https://github.com/erossini/BlazorDataTable#header-details"></a>Header details</h3>
+<p><a href="https://user-images.githubusercontent.com/9497415/141643492-3f2403d0-46b7-49f0-8df1-2018f3d108ef.png" target="_blank" rel="noopener noreferrer"><img style="max-width: 100%" src="https://user-images.githubusercontent.com/9497415/141643492-3f2403d0-46b7-49f0-8df1-2018f3d108ef.png" alt="Header details" /></a></p>
+<h3><a href="https://github.com/erossini/BlazorDataTable#includeadvancedfilterstrue"></a>IncludeAdvancedFilters="true"</h3>
+<p><a href="https://user-images.githubusercontent.com/9497415/141643811-2ab88b81-3ffb-4a80-a36e-cfd473e59f78.png" target="_blank" rel="noopener noreferrer"><img style="max-width: 100%" src="https://user-images.githubusercontent.com/9497415/141643811-2ab88b81-3ffb-4a80-a36e-cfd473e59f78.png" alt="Advanced filters" /></a></p>
+<h2><a href="https://github.com/erossini/BlazorDataTable#installation"></a>Installation</h2>
+<ol>
+    <li>
+        <p>Install the <a href="https://www.nuget.org/packages/PSC.Blazor.Components.DataTable/" rel="nofollow">NuGet</a> package:</p>
+        <div>
+<pre><code>&gt; dotnet add package PSC.Blazor.Components.DataTable
+</code></pre>
+        </div>
+        <p>or</p>
+        <div>
+<pre><code>PM&gt; Install-Package PSC.Blazor.Components.DataTable
+</code></pre>
+        </div>
+        <p>Use the&nbsp;<code>--version</code>&nbsp;option to specify a specific version to install.</p>
+    </li>
+    <li>
+        <p>Import the components:</p>
+        <p>Add in your&nbsp;<code>_Imports.razor</code>&nbsp;file the following using:</p>
+        <div>
+<pre><code>@using PSC.Blazor.Components.DataTable
+@using PSC.Blazor.Components.DataTable.Models
+@using PSC.Blazor.Components.DataTable.EventsArgs
+</code></pre>
+        </div>
+    </li>
+    <li>
+        <p>Reference js interop file:</p>
+        <p>Add to your&nbsp;<code>_Host.cshtml</code>&nbsp;or your&nbsp;<code>index.html</code>&nbsp;the following:</p>
+        <ol>
+            <li><code>link</code>&nbsp;for the CSS code in the&nbsp;<code>head</code></li>
+        </ol>
+        <div>
+<pre><code>&lt;link href="/_content/PSC.Blazor.Components.DataTable/css/DataTable.css" rel="stylesheet" /&gt;
+</code></pre>
+        </div>
+        <ol start="2">
+            <li><code>script</code>&nbsp;after&nbsp;<code>&lt;script src="_framework/blazor.webassembly.js"&gt;&lt;/script&gt;</code></li>
+        </ol>
+        <div>
+<pre><code>&lt;script src="/_content/PSC.Blazor.Components.DataTable/js/DataTable.js"&gt;&lt;/script&gt;
+</code></pre>
+        </div>
+    </li>
+</ol>
+<p>The component requires same external libraries to work properly:</p>
+<ul>
+    <li>jQuery</li>
+    <li>Bootstrap</li>
+    <li>Font Awasome</li>
+</ul>
+<h2><a href="https://github.com/erossini/BlazorDataTable#usage"></a>Usage</h2>
+<h3><a href="https://github.com/erossini/BlazorDataTable#datatable-properties"></a>DataTable properties</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Items</td>
+            <td>IList</td>
+            <td>List</td>
+            <td>The list of items to display</td>
+        </tr>
+        <tr>
+            <td>UsePaging</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Boolean indicating whether to use paging or not</td>
+        </tr>
+        <tr>
+            <td>UsePageSizeSelector</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Boolean indicating hether to show the page size dropdown list (10, 25, 50 records)</td>
+        </tr>
+        <tr>
+            <td>PageNumber</td>
+            <td>int</td>
+            <td>1</td>
+            <td>The number of the current page (only applicable when property UsePaging is true)</td>
+        </tr>
+        <tr>
+            <td>PageSize</td>
+            <td>int</td>
+            <td>10</td>
+            <td>The amount of items shown on a page (only applicable when property UsePaging is true)</td>
+        </tr>
+        <tr>
+            <td>PageCount</td>
+            <td>int</td>
+            <td>1</td>
+            <td>The total amount of pages (only applicable when property UsePaging is true)</td>
+        </tr>
+        <tr>
+            <td>FetchData</td>
+            <td>Func&lt;RequestArgs, Task&gt;?</td>
+            <td>null</td>
+            <td>The method used for fetching and manipulating data (paging, filtering, sorting) on the server. When this method is null, all these actions will be performed on the initial dataset on the client.</td>
+        </tr>
+        <tr>
+            <td>ShowHeaderFilters</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Indicates whether or not to show the header/grid filters</td>
+        </tr>
+        <tr>
+            <td>AllowRowSelection</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not it's possible to select a row</td>
+        </tr>
+        <tr>
+            <td>RowClickedEvent</td>
+            <td>EventCallback</td>
+            <td>null</td>
+            <td>The callback for when a row is clicked (only applicable when property AllowRowSelection is true)</td>
+        </tr>
+        <tr>
+            <td>SelectedItem</td>
+            <td>TModel</td>
+            <td>null</td>
+            <td>The selected item</td>
+        </tr>
+        <tr>
+            <td>SelectedItemCssClass</td>
+            <td>string</td>
+            <td>bg-info</td>
+            <td>The css class for the selected row</td>
+        </tr>
+        <tr>
+            <td>EmptyGridText</td>
+            <td>string</td>
+            <td>"No records to show"</td>
+            <td>The text to show when the Items list is empty</td>
+        </tr>
+        <tr>
+            <td>IsLoading</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not data is being fetched, used to show a spinner</td>
+        </tr>
+        <tr>
+            <td>Id</td>
+            <td>string</td>
+            <td>""</td>
+            <td>The html identifier of the table tag</td>
+        </tr>
+        <tr>
+            <td>ContainerCssClass</td>
+            <td>string</td>
+            <td>"table-responsive"</td>
+            <td>The css class for the container/parent tag of the table</td>
+        </tr>
+        <tr>
+            <td>CssClass</td>
+            <td>string</td>
+            <td>"table"</td>
+            <td>The css class for the table tag</td>
+        </tr>
+        <tr>
+            <td>ApplyButtonCssClass</td>
+            <td>string</td>
+            <td>""</td>
+            <td>The css class for the "apply" buttons on grid/header filters</td>
+        </tr>
+        <tr>
+            <td>InputCssClass</td>
+            <td>string</td>
+            <td>""</td>
+            <td>The css class for the input tags in the grid/header filters</td>
+        </tr>
+        <tr>
+            <td>Styles</td>
+            <td>TableStyle [Enum FLAGS]</td>
+            <td>null</td>
+            <td>The style flags used for the table</td>
+        </tr>
+        <tr>
+            <td>TableAttributes</td>
+            <td>Dictionary&lt;string, object&gt;?</td>
+            <td>null</td>
+            <td>Any custom attributes for the table tag (see Blazor docs for more info)</td>
+        </tr>
+        <tr>
+            <td>RowAttributes</td>
+            <td>Dictionary&lt;string, object&gt;?</td>
+            <td>null</td>
+            <td>Any custom attributes for the rows (see Blazor docs for more info)</td>
+        </tr>
+        <tr>
+            <td>ContainerHeight</td>
+            <td>int</td>
+            <td>300</td>
+            <td>The height of the table container in pixels</td>
+        </tr>
+        <tr>
+            <td>ContainerHeightUnit</td>
+            <td>CssUnit</td>
+            <td>CssUnit.Px</td>
+            <td>The unit of the container height</td>
+        </tr>
+        <tr>
+            <td>IncludeAdvancedFilters</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Indicates whether to allow advanced filtering or not</td>
+        </tr>
+        <tr>
+            <td>IncludeHeaderFilters</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not to include grid/header filters</td>
+        </tr>
+        <tr>
+            <td>IncludeSearchButton</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not to include a search icon. When clicked filters, sorting and paging is performed on the server is FetchData has a value otherwise it happens on the client</td>
+        </tr>
+        <tr>
+            <td>IncludeToggleFilters</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not to include a toggle icon. When clicked header/grid filters will re or disappear (only applicable when property</td>
+        </tr>
+        <tr>
+            <td>SearchOnApplyHeaderFilter</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Indicates whether or not a search is instantly triggered when a header/grid filter is applied</td>
+        </tr>
+        <tr>
+            <td>AutoAddFilterWhenClickedAndNoneActive</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Indicates whether or not to add an empty filter rule when a filterable column is clicked an no other filter rules exist.</td>
+        </tr>
+        <tr>
+            <td>ItemHeight</td>
+            <td>int?</td>
+            <td>null</td>
+            <td>The pixel height of a an item (tr) in the grid. Customize this to get better virtualization.</td>
+        </tr>
+    </tbody>
+</table>
+<h3><a href="https://github.com/erossini/BlazorDataTable#datatablecolumn-properties"></a>DataTableColumn properties</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Property</td>
+            <td>Expression&lt;Func&lt;TModel, object&gt;&gt;?</td>
+            <td>null</td>
+            <td>The selector of a field/property of TModel to use for the column</td>
+        </tr>
+        <tr>
+            <td>IsSortable</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not sorting is enabled for this column</td>
+        </tr>
+        <tr>
+            <td>IsFilterable</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not filtering is enabled for this column</td>
+        </tr>
+        <tr>
+            <td>IsResizable</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether the column is resizable</td>
+        </tr>
+        <tr>
+            <td>IsVisible</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Indicates whether the column should be rendered</td>
+        </tr>
+        <tr>
+            <td>CustomTitle</td>
+            <td>string</td>
+            <td>null</td>
+            <td>The name of the column header (by default the name of the property is used)</td>
+        </tr>
+        <tr>
+            <td>HeaderTemplate</td>
+            <td>RenderFragment&lt;string&gt;</td>
+            <td>null</td>
+            <td>The template to use for the grid header, the string is the name of the column</td>
+        </tr>
+        <tr>
+            <td>Id</td>
+            <td>string</td>
+            <td>""</td>
+            <td>The html identifier of the table tag</td>
+        </tr>
+        <tr>
+            <td>ContainerCssClass</td>
+            <td>string</td>
+            <td>"table-responsive"</td>
+            <td>The css class for the container/parent tag of the table</td>
+        </tr>
+        <tr>
+            <td>CssClass</td>
+            <td>string</td>
+            <td>"table"</td>
+            <td>The css class for the table tag</td>
+        </tr>
+        <tr>
+            <td>IsDefaultSortColumn</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not this column is sorted on by default</td>
+        </tr>
+        <tr>
+            <td>DefaultSortDirection</td>
+            <td>SortDirection [Enum]</td>
+            <td>SortDirection.Ascending</td>
+            <td>The sort direction of the default sorting column</td>
+        </tr>
+        <tr>
+            <td>TextAlignment</td>
+            <td>TextAlignment [Enum]</td>
+            <td>TextAlignment.Left</td>
+            <td>The text alignment for the column</td>
+        </tr>
+        <tr>
+            <td>VerticalAlignment</td>
+            <td>VerticalAlignment [Enum]</td>
+            <td>VerticalAlignment.Bottom</td>
+            <td>The vertical alignment for the column</td>
+        </tr>
+        <tr>
+            <td>Styles</td>
+            <td>TableStyle [Enum FLAGS]</td>
+            <td>null</td>
+            <td>The style flags used for the table</td>
+        </tr>
+        <tr>
+            <td>Attributes</td>
+            <td>Dictionary&lt;string, object&gt;?</td>
+            <td>null</td>
+            <td>Any custom attributes for the table tag (see Blazor docs for more info)</td>
+        </tr>
+        <tr>
+            <td>HeaderFilterAttributes</td>
+            <td>Dictionary&lt;string, object&gt;?</td>
+            <td>null</td>
+            <td>Any custom attributes for the header inputs</td>
+        </tr>
+        <tr>
+            <td>ContainerHeight</td>
+            <td>int</td>
+            <td>300</td>
+            <td>The height of the table container in pixels</td>
+        </tr>
+        <tr>
+            <td>MinWidthHeader</td>
+            <td>int</td>
+            <td>10</td>
+            <td>The height of the table container in the set units (default vw)</td>
+        </tr>
+        <tr>
+            <td>MinWidthHeaderUnit</td>
+            <td>CssUnit</td>
+            <td>CssUnit.Vw</td>
+            <td>The unit of the minWidthHeader property</td>
+        </tr>
+        <tr>
+            <td>IncludeHeaderFilter</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not to add header/grid filters</td>
+        </tr>
+        <tr>
+            <td>IncludeSearchButton</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not to include a search icon. When clicked filters, sorting and paging is performed on the server is FetchData has a value otherwise it happens on the client</td>
+        </tr>
+        <tr>
+            <td>IncludeToggleFilters</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not to include a toggle icon. When clicked header/grid filters will re or disappear (only applicable when property</td>
+        </tr>
+        <tr>
+            <td>SearchOnApplyHeaderFilter</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not a search is instantly triggered when a header/grid filter is applied</td>
+        </tr>
+        <tr>
+            <td>AutoAddFilterWhenClickedAndNoneActive</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Indicates whether or not to add an empty filter rule when a filterable column is clicked an no other filter rules exist.</td>
+        </tr>
+        <tr>
+            <td>RowTemplate</td>
+            <td>RenderFragment?</td>
+            <td>null</td>
+            <td>The custom render fragment to use for the column</td>
+        </tr>
+        <tr>
+            <td>RowAttributes</td>
+            <td>Dictionary&lt;string, object&gt;?</td>
+            <td>null</td>
+            <td>Any custom attributes for the rows (see Blazor docs for more info)</td>
+        </tr>
+        <tr>
+            <td>ContainerHeight</td>
+            <td>int</td>
+            <td>300</td>
+            <td>The height of the table container in pixels</td>
+        </tr>
+        <tr>
+            <td>MaxWidth</td>
+            <td>int</td>
+            <td>100</td>
+            <td>The max width in pixels of a column</td>
+        </tr>
+        <tr>
+            <td>MaxWidthUnit</td>
+            <td>CssUnit</td>
+            <td>CssUnit.Px</td>
+            <td>The unit of the MaxWidth property</td>
+        </tr>
+        <tr>
+            <td>DateTimeFormat</td>
+            <td>DateTimeFormat</td>
+            <td>DateTimeFormat.Date</td>
+            <td>The DateTimeFormat to use in header/grid filters</td>
+        </tr>
+        <tr>
+            <td>IsHeaderVisible</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Indicates whether the column is visible or not</td>
+        </tr>
+        <tr>
+            <td>IncludeAdvancedFilters</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether to allow advanced filtering or not</td>
+        </tr>
+        <tr>
+            <td>IncludeSearchButton</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not to include a search icon. When clicked filters, sorting and paging is performed on the server is FetchData has a value otherwise it happens on the client</td>
+        </tr>
+        <tr>
+            <td>IncludeToggleFilters</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not to include a toggle icon. When clicked header/grid filters will re or disappear (only applicable when property</td>
+        </tr>
+        <tr>
+            <td>SearchOnApplyHeaderFilter</td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Indicates whether or not a search is instantly triggered when a header/grid filter is applied</td>
+        </tr>
+        <tr>
+            <td>AutoAddFilterWhenClickedAndNoneActive</td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Indicates whether or not to add an empty filter rule when a filterable column is clicked an no other filter rules exist.</td>
+        </tr>
+    </tbody>
+</table>
+<h2>Other Blazor components</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Component name</th>
+            <th>Forum</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="https://www.puresourcecode.com/dotnet/net-core/datatable-component-for-blazor/" rel="nofollow">DataTable for Blazor</a></td>
+            <td><a href="https://www.puresourcecode.com/forum/forum/datatables/" rel="nofollow">Forum</a></td>
+            <td>DataTable component for Blazor WebAssembly and Blazor Server</td>
+        </tr>
+        <tr>
+            <td><a href="https://www.puresourcecode.com/dotnet/blazor/markdown-editor-with-blazor/" rel="nofollow">Markdown editor for Blazor</a></td>
+            <td><a href="https://www.puresourcecode.com/forum/forum/markdown-editor-for-blazor/" rel="nofollow">Forum</a></td>
+            <td>This is a Markdown Editor for use in Blazor. It contains a live preview as well as an embeded help guide for users.</td>
+        </tr>
+        <tr>
+            <td><a href="https://www.puresourcecode.com/dotnet/blazor/modal-dialog-component-for-blazor/" rel="nofollow">Modal dialog for Blazor</a></td>
+            <td><a href="https://www.puresourcecode.com/forum/forum/modal-dialog-for-blazor/" rel="nofollow">Forum</a></td>
+            <td>Simple Modal Dialog for Blazor WebAssembly</td>
+        </tr>
+        <tr>
+            <td><a href="https://www.puresourcecode.com/dotnet/net-core/a-lot-of-functions-for-net5/" rel="nofollow">PSC.Extensions</a></td>
+            <td><a href="https://www.puresourcecode.com/forum/forum/psc-extensions/" rel="nofollow">Forum</a></td>
+            <td>A lot of functions for .NET5 in a NuGet package that you can download for free. We collected in this package functions for everyday work to help you with claim, strings, enums, date and time, expressions...</td>
+        </tr>
+        <tr>
+            <td><a href="https://www.puresourcecode.com/dotnet/blazor/create-a-blazor-component-for-quill/" rel="nofollow">Quill for Blazor</a></td>
+            <td><a href="https://www.puresourcecode.com/forum/forum/quill-for-blazor/" rel="nofollow">Forum</a></td>
+            <td>Quill Component is a custom reusable control that allows us to easily consume Quill and place multiple instances of it on a single page in our Blazor application</td>
+        </tr>
+        <tr>
+            <td><a href="https://www.puresourcecode.com/dotnet/blazor/segment-control-for-blazor/" rel="nofollow">Segment for Blazor</a></td>
+            <td><a href="https://www.puresourcecode.com/forum/forum/segments-for-blazor/" rel="nofollow">Forum</a></td>
+            <td>This is a Segment component for Blazor Web Assembly and Blazor Server</td>
+        </tr>
+        <tr>
+            <td><a href="https://www.puresourcecode.com/dotnet/blazor/tabs-control-for-blazor/" rel="nofollow">Tabs for Blazor</a></td>
+            <td><a href="https://www.puresourcecode.com/forum/forum/tabs-for-blazor/" rel="nofollow">Forum</a></td>
+            <td>This is a Tabs component for Blazor Web Assembly and Blazor Server</td>
+        </tr>
+    </tbody>
+</table>
+<h2><a href="https://github.com/erossini/BlazorDataTable#more-examples-and-documentation"></a>More examples and documentation</h2>
+<ul>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/write-a-reusable-blazor-component/" rel="nofollow">Write a reusable Blazor component</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/net-core/getting-started-with-c-and-blazor/" rel="nofollow">Getting Started With C# And Blazor</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/setting-up-a-blazor-webassembly-application/" rel="nofollow">Setting Up A Blazor WebAssembly Application</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/working-with-blazors-component-model/" rel="nofollow">Working With Blazor Component Model</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/secure-blazor-webassembly-with-identityserver4/" rel="nofollow">Secure Blazor WebAssembly With IdentityServer4</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/blazor-using-httpclient-with-authentication/" rel="nofollow">Blazor Using HttpClient With Authentication</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/inputselect-component-for-enumerations-in-blazor/" rel="nofollow">InputSelect component for enumerations in Blazor</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/use-localstorage-with-blazor-webassembly/" rel="nofollow">Use LocalStorage with Blazor WebAssembly</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/modal-dialog-component-for-blazor/" rel="nofollow">Modal Dialog component for Blazor</a></li>
+    <li><a href="https://www.puresourcecode.com/dotnet/blazor/create-tooltip-component-for-blazor/" rel="nofollow">Create Tooltip component for Blazor</a></li>
+    <li><a href="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/class-libraries?view=aspnetcore-5.0&amp;tabs=visual-studio" rel="nofollow">Consume ASP.NET Core Razor components from Razor class libraries | Microsoft Docs</a></li>
+</ul>

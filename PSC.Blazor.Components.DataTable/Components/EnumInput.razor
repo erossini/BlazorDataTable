@@ -1,0 +1,98 @@
+﻿@if (IncludeApply)
+{
+	if (IsApplied)
+	{
+		<AppliedInputValue AppliedText="@AppliedText" UnApplyFilterEvent="@UnApplyFilterEvent" MaxWidth="@MaxWidth" />
+	}
+	else
+	{
+		<div class="input-group d-flex flex-nowrap">
+			<select class="custom-select custom-select-sm @InputCssClass"
+					style="@(MaxWidth != 0 ? string.Format("max-width: {0}px", (object) this.MaxWidth) : "")"
+					@onchange="@UpdateValue">
+				@foreach (string enumValue in (IEnumerable<string>)EnumValues)
+				{
+					if (enumValue.Equals(Value, StringComparison.InvariantCultureIgnoreCase))
+					{
+						<option selected="selected" value="@enumValue">@enumValue</option>
+					}
+					else
+					{
+						<option value="@enumValue">@enumValue</option>
+					}
+				}
+			</select>
+
+			<div class="input-group-append">
+				<button type="button" class="btn btn-sm btn-outline-secondary @ApplyButtonCssClass">
+					<i class="fas fa-check"></i>
+				</button>
+			</div>
+		</div>
+	}
+}
+else
+{
+	<select class="custom-select custom-select-sm @InputCssClass"
+			style="@(MaxWidth != 0 ? string.Format("max-width: {0}px", (object) this.MaxWidth) : "")"
+			@onchange="@UpdateValue">
+		@foreach (string enumValue in (IEnumerable<string>)EnumValues)
+		{
+			if (enumValue.Equals(Value, StringComparison.InvariantCultureIgnoreCase))
+			{
+				<option selected="selected" value="@enumValue">@enumValue</option>
+			}
+			else
+			{
+				<option value="@enumValue">@enumValue</option>
+			}
+		}
+	</select>
+}
+
+@code {
+	[Parameter]
+	public string Value { get; set; }
+
+	[Parameter]
+	public EventCallback<ValueChangedEventArgs> OnValueChangedEvent { get; set; }
+
+	[Parameter]
+	public IList<string> EnumValues { get; set; } = (IList<string>)new List<string>();
+
+	[Parameter]
+	public string DefaultClass { get; set; } = "custom-select";
+
+	[Parameter]
+	public string InputCssClass { get; set; } = "";
+
+	[Parameter]
+	public bool IncludeApply { get; set; } = false;
+
+	[Parameter]
+	public bool IsApplied { get; set; } = false;
+
+	[Parameter]
+	public string AppliedText { get; set; } = "";
+
+	[Parameter]
+	public string ApplyButtonCssClass { get; set; } = "";
+
+	[Parameter]
+	public int MaxWidth { get; set; }
+
+	[Parameter]
+	public Dictionary<string, object> Attributes { get; set; }
+
+	[Parameter]
+	public EventCallback<MouseEventArgs> ApplyFilterEvent { get; set; }
+
+	[Parameter]
+	public EventCallback<MouseEventArgs> UnApplyFilterEvent { get; set; }
+
+	private async Task UpdateValue(ChangeEventArgs args)
+	{
+		this.Value = args.Value.ToString();
+		await this.OnValueChangedEvent.InvokeAsync(new ValueChangedEventArgs((object)this.Value));
+	}
+}
