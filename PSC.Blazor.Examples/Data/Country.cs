@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 ﻿namespace PSC.Blazor.Examples.Data
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PSC.Blazor.Examples.Data
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 {
 	//Source: https://gist.github.com/lsancho/6b34fe18e2b1b0169786
 	public enum Country : byte

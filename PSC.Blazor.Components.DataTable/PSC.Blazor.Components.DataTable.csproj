@@ -5,16 +5,24 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Enrico Rossini</Authors>
     <Company>$(Authors) - PureSourceCode.com</Company>
+<<<<<<< HEAD
     <Description>DataTable for Blazor (.NET5) For the full list of properties and example, please visit https://www.puresourcecode.com/dotnet/net-core/datatable-component-for-blazor/</Description>
+=======
+    <Description>DataTable for Blazor</Description>
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     <Copyright>Enrico Rossini - PureSourceCode.com</Copyright>
     <PackageIcon>psc_logo.png</PackageIcon>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
+<<<<<<< HEAD
     <PackageTags>blazor, blazor-server, blazor-webassembly, blazor-component</PackageTags>
     <RepositoryUrl>https://github.com/erossini/BlazorDataTable</RepositoryUrl>
     <PackageProjectUrl>https://www.puresourcecode.com/dotnet/net-core/datatable-component-for-blazor/</PackageProjectUrl>
     <PackageReleaseNotes>Add Intellisense across the component</PackageReleaseNotes>
+=======
+    <PackageTags>blazor, blazor-server, blazor-webassembly</PackageTags>
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,7 +44,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+<<<<<<< HEAD
     <PackageReference Include="PSC.Extensions" Version="1.0.2" />
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.10" />
   </ItemGroup>
 

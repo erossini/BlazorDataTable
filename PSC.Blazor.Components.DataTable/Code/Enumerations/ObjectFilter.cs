@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿// ***********************************************************************
 // Assembly         : PSC.Blazor.Components.DataTable
 // Author           : Enrico Rossini
@@ -125,10 +126,46 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 		/// <param name="propertyName">Name of the property.</param>
 		/// <param name="value">The value.</param>
 		/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq.Expressions;
+
+namespace PSC.Blazor.Components.DataTable.Code.Enumerations
+{
+	public abstract class ObjectFilter : Enumeration
+	{
+		public static readonly ObjectFilter IsEquals = (ObjectFilter)new ObjectFilter.IsEqualsFilter(1, nameof(IsEquals));
+		public static readonly ObjectFilter NotEquals = (ObjectFilter)new ObjectFilter.NotEqualsFilter(2, nameof(NotEquals));
+		public static readonly ObjectFilter GreaterThan = (ObjectFilter)new ObjectFilter.GreaterThanFilter(3, nameof(GreaterThan));
+		public static readonly ObjectFilter GreaterThanOrEquals = (ObjectFilter)new ObjectFilter.GreaterThanOrEqualsFilter(4, nameof(GreaterThanOrEquals));
+		public static readonly ObjectFilter LessThan = (ObjectFilter)new ObjectFilter.LessThanFilter(5, nameof(LessThan));
+		public static readonly ObjectFilter LessThanOrEquals = (ObjectFilter)new ObjectFilter.LessThanOrEqualsFilter(6, nameof(LessThanOrEquals));
+		public static readonly ObjectFilter Contains = (ObjectFilter)new ObjectFilter.ContainsFilter(7, nameof(Contains));
+		public static readonly ObjectFilter NotContains = (ObjectFilter)new ObjectFilter.NotContainsFilter(8, nameof(NotContains));
+		public static readonly ObjectFilter StartsWith = (ObjectFilter)new ObjectFilter.StartsWithFilter(9, nameof(StartsWith));
+		public static readonly ObjectFilter EndsWith = (ObjectFilter)new ObjectFilter.EndsWithFilter(10, nameof(EndsWith));
+		public static readonly ObjectFilter IsNull = (ObjectFilter)new ObjectFilter.IsNullFilter(11, nameof(IsNull));
+		public static readonly ObjectFilter IsNotNull = (ObjectFilter)new ObjectFilter.IsNotNullFilter(12, nameof(IsNotNull));
+
+		public abstract bool ValueRequired { get; }
+
+		public abstract bool IsNumberAllowed { get; }
+
+		public abstract bool IsBoolAllowed { get; }
+
+		public abstract bool IsStringAllowed { get; }
+
+		public abstract bool IsDateTimeAllowed { get; }
+
+		public abstract bool IsNonNullableAllowed { get; }
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		public abstract Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 		  string propertyName,
 		  object value);
 
+<<<<<<< HEAD
 		/// <summary>
 		/// Applies the embedded filter.
 		/// </summary>
@@ -145,6 +182,9 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 		/// <param name="type">The type.</param>
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		public virtual bool AllowsType(Type type)
+=======
+		public bool AllowsType(Type type)
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		{
 			TypeCode typeCode = Type.GetTypeCode(type);
 			return Utils.IsNumber(type) && this.IsNumberAllowed ||
@@ -153,16 +193,20 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 				   typeCode == TypeCode.DateTime && this.IsDateTimeAllowed);
 		}
 
+<<<<<<< HEAD
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ObjectFilter" /> class.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <param name="name">The name.</param>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		protected ObjectFilter(int id, string name)
 		  : base(id, name)
 		{
 		}
 
+<<<<<<< HEAD
 		/// <summary>
 		/// Class IsEqualsFilter.
 		/// Implements the <see cref="PSC.Blazor.Components.DataTable.Code.Enumerations.ObjectFilter" />
@@ -217,11 +261,28 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+		private class IsEqualsFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => true;
+
+			public override bool IsBoolAllowed => true;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => true;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal IsEqualsFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -229,17 +290,24 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
+=======
+				Expression expression = (Expression)parameterExpression;
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
 
 				foreach (string propertyOrFieldName in str.Split(chArray))
+<<<<<<< HEAD
 					expression = Expression.PropertyOrField(expression, propertyOrFieldName);
 
 				UnaryExpression unaryExpression = !expression.Type.IsEnum ?
@@ -319,11 +387,38 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+
+				UnaryExpression unaryExpression = !expression.Type.IsEnum ?
+												  Expression.ConvertChecked(Expression.Constant(value), expression.Type) :
+												  Expression.ConvertChecked(Expression.Constant((object)Convert.ToInt32(Enum.Parse(expression.Type, value.ToString()))), expression.Type);
+
+				return Expression.Lambda<Func<TModel, bool>>(Expression.Equal(expression, unaryExpression), parameterExpression);
+			}
+		}
+
+		private class NotEqualsFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => true;
+
+			public override bool IsBoolAllowed => true;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => true;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal NotEqualsFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -331,17 +426,25 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
 
+=======
+				Expression expression = (Expression)parameterExpression;
+				
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
 
 				foreach (string propertyOrFieldName in str.Split(chArray))
+<<<<<<< HEAD
 					expression = Expression.PropertyOrField(expression, propertyOrFieldName);
 
 				UnaryExpression unaryExpression = !expression.Type.IsEnum ?
@@ -421,11 +524,35 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+
+				UnaryExpression unaryExpression = !expression.Type.IsEnum ? Expression.ConvertChecked(Expression.Constant(value), expression.Type) : Expression.ConvertChecked(Expression.Constant((object)Convert.ToInt32(Enum.Parse(expression.Type, value.ToString()))), expression.Type);
+				return Expression.Lambda<Func<TModel, bool>>(Expression.NotEqual(expression, unaryExpression), parameterExpression);
+			}
+		}
+
+		private class GreaterThanFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => true;
+
+			public override bool IsBoolAllowed => false;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => true;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal GreaterThanFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -433,22 +560,36 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
+=======
+				Expression expression = (Expression)parameterExpression;
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
 
 				foreach (string propertyOrFieldName in str.Split(chArray))
+<<<<<<< HEAD
 					expression = Expression.PropertyOrField(expression, propertyOrFieldName);
+=======
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 
 				BinaryExpression binaryExpression;
 				if (expression.Type.IsEnum)
 				{
+<<<<<<< HEAD
 					ConstantExpression constantExpression = Expression.Constant(Convert.ToInt32(Enum.Parse(expression.Type, value.ToString())));
+=======
+					ConstantExpression constantExpression = Expression.Constant((object)Convert.ToInt32(Enum.Parse(expression.Type, value.ToString())));
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 					binaryExpression = Expression.GreaterThan(Expression.ConvertChecked(expression, typeof(int)), constantExpression);
 				}
 				else
@@ -459,6 +600,7 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 
 				return Expression.Lambda<Func<TModel, bool>>(binaryExpression, parameterExpression);
 			}
+<<<<<<< HEAD
 
 			/// <summary>
 			/// Applies the embedded filter.
@@ -529,11 +671,30 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+		}
+
+		private class GreaterThanOrEqualsFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => true;
+
+			public override bool IsBoolAllowed => true;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => true;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal GreaterThanOrEqualsFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -541,11 +702,14 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
@@ -556,6 +720,17 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 				if (expression.Type.IsEnum)
 				{
 					ConstantExpression constantExpression = Expression.Constant(Convert.ToInt32(Enum.Parse(expression.Type, value.ToString())));
+=======
+				Expression expression = (Expression)parameterExpression;
+				string str = propertyName;
+				char[] chArray = new char[1] { '.' };
+				foreach (string propertyOrFieldName in str.Split(chArray))
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+				BinaryExpression binaryExpression;
+				if (expression.Type.IsEnum)
+				{
+					ConstantExpression constantExpression = Expression.Constant((object)Convert.ToInt32(Enum.Parse(expression.Type, value.ToString())));
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 					binaryExpression = Expression.GreaterThanOrEqual(Expression.ConvertChecked(expression, typeof(int)), constantExpression);
 				}
 				else
@@ -565,6 +740,7 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 				}
 				return Expression.Lambda<Func<TModel, bool>>(binaryExpression, parameterExpression);
 			}
+<<<<<<< HEAD
 
 			/// <summary>
 			/// Applies the embedded filter.
@@ -635,11 +811,30 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+		}
+
+		private class LessThanFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => true;
+
+			public override bool IsBoolAllowed => false;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => true;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal LessThanFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -647,23 +842,37 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
+=======
+				Expression expression = (Expression)parameterExpression;
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
 
 				foreach (string propertyOrFieldName in str.Split(chArray))
+<<<<<<< HEAD
 					expression = Expression.PropertyOrField(expression, propertyOrFieldName);
+=======
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 
 				BinaryExpression binaryExpression;
 				if (expression.Type.IsEnum)
 				{
+<<<<<<< HEAD
 					ConstantExpression constantExpression = Expression.Constant(Convert.ToInt32(Enum.Parse(expression.Type, value.ToString())));
+=======
+					ConstantExpression constantExpression = Expression.Constant((object)Convert.ToInt32(Enum.Parse(expression.Type, value.ToString())));
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 					binaryExpression = Expression.LessThan(Expression.ConvertChecked(expression, typeof(int)), constantExpression);
 				}
 				else
@@ -673,6 +882,7 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 				}
 				return Expression.Lambda<Func<TModel, bool>>(binaryExpression, parameterExpression);
 			}
+<<<<<<< HEAD
 
 			/// <summary>
 			/// Applies the embedded filter.
@@ -743,11 +953,30 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+		}
+
+		private class LessThanOrEqualsFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => true;
+
+			public override bool IsBoolAllowed => true;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => true;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal LessThanOrEqualsFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -755,23 +984,37 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
+=======
+				Expression expression = (Expression)parameterExpression;
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
 
 				foreach (string propertyOrFieldName in str.Split(chArray))
+<<<<<<< HEAD
 					expression = Expression.PropertyOrField(expression, propertyOrFieldName);
+=======
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 
 				BinaryExpression binaryExpression;
 				if (expression.Type.IsEnum)
 				{
+<<<<<<< HEAD
 					ConstantExpression constantExpression = Expression.Constant(Convert.ToInt32(Enum.Parse(expression.Type, value.ToString())));
+=======
+					ConstantExpression constantExpression = Expression.Constant((object)Convert.ToInt32(Enum.Parse(expression.Type, value.ToString())));
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 					binaryExpression = Expression.LessThanOrEqual(Expression.ConvertChecked(expression, typeof(int)), constantExpression);
 				}
 				else
@@ -781,6 +1024,7 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 				}
 				return Expression.Lambda<Func<TModel, bool>>(binaryExpression, parameterExpression);
 			}
+<<<<<<< HEAD
 
 			/// <summary>
 			/// Applies the embedded filter.
@@ -851,11 +1095,30 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+		}
+
+		private class ContainsFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => false;
+
+			public override bool IsBoolAllowed => false;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => false;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal ContainsFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -863,17 +1126,24 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
+=======
+				Expression expression = (Expression)parameterExpression;
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
 
 				foreach (string propertyOrFieldName in str.Split(chArray))
+<<<<<<< HEAD
 					expression = Expression.PropertyOrField(expression, propertyOrFieldName);
 
 				ConstantExpression valueExpression = Expression.Constant(string.Format("%{0}%", value));
@@ -885,10 +1155,19 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 
 				Expression body = Expression.Call(null,
 					likeMethod, Expression.Default(typeof(DbFunctions)),
+=======
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+
+				ConstantExpression valueExpression = Expression.Constant((object)string.Format("%{0}%", value));
+
+				Expression body = Expression.Call(typeof(DbFunctionsExtensions),
+					nameof(DbFunctionsExtensions.Like), null, Expression.Default(typeof(DbFunctions)),
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 					expression, valueExpression);
 
 				return Expression.Lambda<Func<TModel, bool>>(body, parameterExpression);
 			}
+<<<<<<< HEAD
 
 			/// <summary>
 			/// Applies the embedded filter.
@@ -969,11 +1248,30 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+		}
+
+		private class NotContainsFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => false;
+
+			public override bool IsBoolAllowed => false;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => false;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal NotContainsFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -981,6 +1279,8 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
@@ -988,6 +1288,7 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 				Expression expression = Expression.Parameter(typeof(TModel), "e");
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
+<<<<<<< HEAD
 
 				foreach (string propertyOrFieldName in str.Split(chArray))
 					expression = Expression.PropertyOrField(expression, propertyOrFieldName);
@@ -1077,11 +1378,38 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+				
+				foreach (string propertyOrFieldName in str.Split(chArray))
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+				
+				ConstantExpression constantExpression = Expression.Constant((object)string.Format("%{0}%", value));
+
+				return Expression.Lambda<Func<TModel, bool>>(Expression.Call(typeof(DbFunctionsExtensions), nameof(DbFunctionsExtensions.Like), null, Expression.Constant(EF.Functions), expression, constantExpression));
+			}
+		}
+
+		private class StartsWithFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => false;
+
+			public override bool IsBoolAllowed => false;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => false;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal StartsWithFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -1089,10 +1417,13 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
+<<<<<<< HEAD
 				Expression expression = Expression.Parameter(typeof(TModel), "e");
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
@@ -1185,11 +1516,41 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+				Expression expression = (Expression)Expression.Parameter(typeof(TModel), "e");
+				string str = propertyName;
+				char[] chArray = new char[1] { '.' };
+				
+				foreach (string propertyOrFieldName in str.Split(chArray))
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+				
+				ConstantExpression constantExpression = Expression.Constant((object)string.Format("{0}%", value));
+
+				return Expression.Lambda<Func<TModel, bool>>(Expression.Call(typeof(DbFunctionsExtensions), nameof(DbFunctionsExtensions.Like), null, Expression.Constant(EF.Functions), expression, constantExpression));
+			}
+		}
+
+		private class EndsWithFilter : ObjectFilter
+		{
+			public override bool ValueRequired => true;
+
+			public override bool IsNumberAllowed => false;
+
+			public override bool IsBoolAllowed => false;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => false;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal EndsWithFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -1197,15 +1558,22 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
+<<<<<<< HEAD
 				Expression expression = Expression.Parameter(typeof(TModel), "e");
+=======
+				Expression expression = (Expression)Expression.Parameter(typeof(TModel), "e");
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
 
 				foreach (string propertyOrFieldName in str.Split(chArray))
+<<<<<<< HEAD
 					expression = Expression.PropertyOrField(expression, propertyOrFieldName);
 
 				ConstantExpression constantExpression = Expression.Constant(string.Format("%{0}", value));
@@ -1293,11 +1661,36 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+
+				ConstantExpression constantExpression = Expression.Constant((object)string.Format("%{0}", value));
+
+				return Expression.Lambda<Func<TModel, bool>>(Expression.Call(typeof(DbFunctionsExtensions), nameof(DbFunctionsExtensions.Like), null, Expression.Constant(EF.Functions), expression, constantExpression));
+			}
+		}
+
+		private class IsNullFilter : ObjectFilter
+		{
+			public override bool ValueRequired => false;
+
+			public override bool IsNumberAllowed => true;
+
+			public override bool IsBoolAllowed => true;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => true;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal IsNullFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -1305,11 +1698,14 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
 				string str = propertyName;
 				char[] chArray = new char[1] { '.' };
@@ -1389,11 +1785,38 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// </summary>
 			/// <param name="id">The identifier.</param>
 			/// <param name="name">The name.</param>
+=======
+				Expression expression = (Expression)parameterExpression;
+				string str = propertyName;
+				char[] chArray = new char[1] { '.' };
+				foreach (string propertyOrFieldName in str.Split(chArray))
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+				UnaryExpression unaryExpression = Expression.ConvertChecked((Expression)Expression.Constant((object)null), expression.Type);
+				return Expression.Lambda<Func<TModel, bool>>((Expression)Expression.Equal(expression, (Expression)unaryExpression), parameterExpression);
+			}
+		}
+
+		private class IsNotNullFilter : ObjectFilter
+		{
+			public override bool ValueRequired => false;
+
+			public override bool IsNumberAllowed => true;
+
+			public override bool IsBoolAllowed => true;
+
+			public override bool IsStringAllowed => true;
+
+			public override bool IsDateTimeAllowed => true;
+
+			public override bool IsNonNullableAllowed => true;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			internal IsNotNullFilter(int id, string name)
 			  : base(id, name)
 			{
 			}
 
+<<<<<<< HEAD
 			/// <summary>
 			/// Generates the expression.
 			/// </summary>
@@ -1401,11 +1824,14 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="value">The value.</param>
 			/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			public override Expression<Func<TModel, bool>> GenerateExpression<TModel>(
 			  string propertyName,
 			  object value)
 			{
 				ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "e");
+<<<<<<< HEAD
 				Expression expression = parameterExpression;
 
 				string str = propertyName;
@@ -1432,6 +1858,15 @@ namespace PSC.Blazor.Components.DataTable.Code.Enumerations
 			public override IList<TModel> ApplyEmbeddedFilter<TModel>(IList<TModel> models, string propertyName, string value)
 			{
 				throw new NotImplementedException();
+=======
+				Expression expression = (Expression)parameterExpression;
+				string str = propertyName;
+				char[] chArray = new char[1] { '.' };
+				foreach (string propertyOrFieldName in str.Split(chArray))
+					expression = (Expression)Expression.PropertyOrField(expression, propertyOrFieldName);
+				UnaryExpression unaryExpression = Expression.ConvertChecked((Expression)Expression.Constant((object)null), expression.Type);
+				return Expression.Lambda<Func<TModel, bool>>((Expression)Expression.Not((Expression)Expression.Equal(expression, (Expression)unaryExpression)), parameterExpression);
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 			}
 		}
 	}

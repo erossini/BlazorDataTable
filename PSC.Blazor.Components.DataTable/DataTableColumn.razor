@@ -7,6 +7,7 @@
     [CascadingParameter]
     private DataTable<TModel>? DataTable { get; set; }
 
+<<<<<<< HEAD
     /// <summary>
     /// The CSS Class for the table
     /// </summary>
@@ -72,6 +73,35 @@
     /// <summary>
     /// The selector of a field/property of TModel to use for the column
     /// </summary>
+=======
+    [Parameter]
+    public string CssClass { get; set; } = "";
+
+    [Parameter]
+    public TextAlignment TextAlignment { get; set; } = TextAlignment.Left;
+
+    [Parameter]
+    public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Bottom;
+
+    [Parameter]
+    public bool IsSortable { get; set; } = false;
+
+    [Parameter]
+    public bool IsFilterable { get; set; } = false;
+
+    [Parameter]
+    public bool IsResizable { get; set; } = false;
+
+    [Parameter]
+    public string? CustomTitle { get; set; }
+
+    [Parameter]
+    public bool IsDefaultSortColumn { get; set; } = false;
+
+    [Parameter]
+    public SortDirection DefaultSortDirection { get; set; } = SortDirection.Ascending;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     [Parameter]
     public Expression<Func<TModel, object>>? Property { get; set; }
 
@@ -84,6 +114,7 @@
     [Parameter]
     public RenderFragment<string> HeaderTemplate { get; set; }
 
+<<<<<<< HEAD
     /// <summary>
     /// The custom render fragment to use for the column
     /// </summary>
@@ -93,6 +124,10 @@
     /// <summary>
     /// Any custom attributes for the header inputs
     /// </summary>
+=======
+    [Parameter]
+    public RenderFragment<TModel>? RowTemplate { get; set; }
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     [Parameter]
     public Dictionary<string, object> HeaderFilterAttributes { get; set; } = new Dictionary<string, object>();
 
@@ -114,17 +149,25 @@
     }
     private bool isVisible = true;
 
+<<<<<<< HEAD
     /// <summary>
     /// The DateTimeFormat to use in header/grid filters <seealso cref="PSC.Blazor.Components.DataTable.Code.Enumerations.DateTimeFormat" />
     /// </summary>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     [Parameter]
     public DateTimeFormat DateTimeFormat { get; set; } = DateTimeFormat.Date;
 
     /// <summary>
     /// When true the MaxWidth property will be ignored and the table will size according to it's content
     /// </summary>
+<<<<<<< HEAD
     [Parameter]
     public bool SizeToContent { get; set; }
+=======
+    //[Parameter]
+    //public bool SizeToContent { get; set; }
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 
     /// <summary>
     /// The min width of the header (Default unit is vw)
@@ -138,9 +181,12 @@
     [Parameter]
     public CssUnit MinWidthHeaderUnit { get; set; } = CssUnit.Vw;
 
+<<<<<<< HEAD
     /// <summary>
     /// The max width in pixels of a column
     /// </summary>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     [Parameter]
     public int MaxWidth { get; set; } = 210;
 
@@ -150,9 +196,12 @@
     [Parameter]
     public CssUnit MaxWidthUnit { get; set; } = CssUnit.Px;
 
+<<<<<<< HEAD
     /// <summary>
     /// Header filter type
     /// </summary>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     [Parameter]
     public ObjectFilter HeaderFilterType
     {
@@ -190,21 +239,30 @@
         return Task.CompletedTask;
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Gets column property name
     /// </summary>
     /// <returns></returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     public string GetColumnPropertyName()
     {
         if (Property != null) return Utils.GetPropertyName<TModel>(Property);
         return "";
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Gets column visual property name
     /// </summary>
     public string GetColumnVisualPropertyName()
     {
+=======
+    public string GetColumnVisualPropertyName()
+    {
+        //Don't return custom title anymore, since it causes issues with trying to sort or filter
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
         if (Property != null)
         {
             string fullColumnName = GetColumnPropertyName();
@@ -217,6 +275,7 @@
         return "";
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Gets column header style
     /// </summary>
@@ -227,12 +286,21 @@
     /// Gets column row data style
     /// </summary>
     /// <returns></returns>
+=======
+    // TODO: Optimize
+    public string GetColumnHeaderStyle() => $"text-align: {TextAlignment}; min-width: {MinWidthHeader}{MinWidthHeaderUnit}; top: 0; position: sticky; z-index: 1; border-top: none;" + GetColumnResizableHeaderStyle();
+
+    // TODO: Optimize
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     public string GetColumnRowDataStyle() => $"text-align: {TextAlignment}; max-width: {MaxWidth}{MaxWidthUnit}; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;";
 
     private string GetColumnResizableHeaderStyle() => IsResizable ? "resize: horizontal; overflow: auto;" : "";
 
     public event EventHandler? StateChanged;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     private void RaiseStateChanged()
     {
         EventHandler? handler = StateChanged;

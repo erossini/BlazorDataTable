@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿// ***********************************************************************
 // Assembly         : PSC.Blazor.Components.DataTable
 // Author           : Enrico Rossini
@@ -11,13 +12,25 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 namespace PSC.Blazor.Components.DataTable.Models
 {
 	/// <summary>
 	/// Class DOMRect.
 	/// </summary>
 	public class DOMRect
+<<<<<<< HEAD
 	{
+=======
+    {
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		/// <summary>
 		/// Gets or sets the top.
 		/// </summary>
@@ -48,5 +61,9 @@ namespace PSC.Blazor.Components.DataTable.Models
 		/// </summary>
 		/// <value>The height.</value>
 		public double Height { get; set; }
+<<<<<<< HEAD
 	}
+=======
+    }
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 }

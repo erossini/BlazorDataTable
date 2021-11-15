@@ -1,6 +1,10 @@
 ﻿@if (IncludeSearchButton)
 {
+<<<<<<< HEAD
     <button class="btn btn-light btn-sm rounded-circle align-baseline" @onclick="ApplyFilters">
+=======
+    <button class="btn btn-light btn-sm rounded-circle align-baseline">
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
         <i class="fas fa-search"></i>
     </button>
 }
@@ -22,6 +26,7 @@
 }
 
 @code {
+<<<<<<< HEAD
     /// <summary>
     /// Indicates whether or not to include a search icon. When clicked filters, sorting and paging is performed on the server 
     /// is FetchData has a value otherwise it happens on the client
@@ -53,6 +58,20 @@
     /// <summary>
     /// Event callback when an header filter changed
     /// </summary>
+=======
+    [Parameter]
+    public bool IncludeSearchButton { get; set; } = false;
+
+    [Parameter]
+    public bool IncludeToggleFilters { get; set; } = false;
+
+    [Parameter]
+    public bool ShowHeaderFilters { get; set; } = true;
+
+    [Parameter]
+    public Func<Task> ApplyFilters { get; set; }
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     [Parameter]
     public EventCallback<bool> ShowHeaderFiltersChangedEvent { get; set; }
 }

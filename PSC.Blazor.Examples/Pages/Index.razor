@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+<<<<<<< HEAD
 <h1>DataTable for Blazor</h1>
 
 <p>
@@ -566,3 +567,35 @@
     <li><a href="https://www.puresourcecode.com/dotnet/blazor/create-tooltip-component-for-blazor/" rel="nofollow">Create Tooltip component for Blazor</a></li>
     <li><a href="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/class-libraries?view=aspnetcore-5.0&amp;tabs=visual-studio" rel="nofollow">Consume ASP.NET Core Razor components from Razor class libraries | Microsoft Docs</a></li>
 </ul>
+=======
+@inject WeatherForecastService ForecastService
+
+<h1>Basic example</h1>
+
+@if (forecasts == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<DataTable TModel="WeatherForecast" Items="forecasts">
+		<DataTableColumn TModel="WeatherForecast" Property="(e) => e.Date" />
+		<DataTableColumn TModel="WeatherForecast" Property="(e) => e.TemperatureC" CustomTitle="Celsius" />
+		<DataTableColumn TModel="WeatherForecast" Property="(e) => e.TemperatureF" CustomTitle="Fahrenheit" />
+		<DataTableColumn TModel="WeatherForecast" Property="(e) => e.MyNullableInt" />
+		<DataTableColumn TModel="WeatherForecast" Property="(e) => e.Summary" />
+		<DataTableColumn TModel="WeatherForecast" Property="(e) => e.Country" />
+		<DataTableColumn TModel="WeatherForecast" Property="(e) => e.UpdatedRecently" CustomTitle="Recently updated" />
+	</DataTable>
+}
+
+@code {
+	private WeatherForecast[] forecasts;
+
+	protected override async Task OnInitializedAsync()
+	{
+		forecasts = await ForecastService.GetForecastAsync(DateTime.Now, amount: 20);
+	}
+
+}
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e

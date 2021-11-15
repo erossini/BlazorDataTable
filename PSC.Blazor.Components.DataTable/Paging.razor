@@ -88,6 +88,7 @@
 </div>
 
 @code {
+<<<<<<< HEAD
     /// <summary>
     /// Gets or sets the number of pages.
     /// </summary>
@@ -205,6 +206,65 @@
 	/// <summary>
     /// Gets or sets the text for the previous page
     /// </summary>
+=======
+	[Parameter]
+	public int PageCount { get; set; } = 1;
+
+	[Parameter]
+	public int ActivePageNumber { get; set; } = 1;
+
+	[Parameter]
+	public int PageSize { get; set; } = 25;
+
+	[Parameter]
+	public EventCallback<int> GoToPageEvent { get; set; }
+
+	[Parameter]
+	public EventCallback<int> PageSizeChangedEvent { get; set; }
+
+	[Parameter]
+	public string ButtonClass { get; set; } = "btn-light border";
+
+	[Parameter]
+	public string PageNumberClass { get; set; } = "bg-light border";
+
+	[Parameter]
+	public bool IncludeFirstButton { get; set; } = true;
+
+	[Parameter]
+	public bool IncludeLastButton { get; set; } = true;
+
+	[Parameter]
+	public bool UseLabelFirstButton { get; set; } = false;
+
+	[Parameter]
+	public bool UseLabelLastButton { get; set; } = false;
+
+	[Parameter]
+	public string FirstPageButtonLabel { get; set; } = "First";
+
+	[Parameter]
+	public string LastPageButtonLabel { get; set; } = "Last";
+
+	[Parameter]
+	public bool IncludeNextButton { get; set; } = true;
+
+	[Parameter]
+	public bool IncludePrevButton { get; set; } = true;
+
+	[Parameter]
+	public bool IncludePageSizeSelect { get; set; } = true;
+
+	[Parameter]
+	public bool UseLabelNextButton { get; set; } = false;
+
+	[Parameter]
+	public bool UseLabelPrevButton { get; set; } = false;
+
+	[Parameter]
+	public string NextButtonLabel { get; set; } = "Next";
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 	[Parameter]
 	public string PrevButtonLabel { get; set; } = "Prev";
 

@@ -5,10 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <Content Remove="wwwroot\img\psc_logo.png" />
   </ItemGroup>
 
   <ItemGroup>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.7" PrivateAssets="all" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
@@ -18,6 +21,7 @@
     <ProjectReference Include="..\PSC.Blazor.Components.DataTable\PSC.Blazor.Components.DataTable.csproj" />
   </ItemGroup>
 
+<<<<<<< HEAD
   <ItemGroup>
     <None Include="wwwroot\img\psc_logo.png">
       <PackagePath>\</PackagePath>
@@ -25,4 +29,6 @@
     </None>
   </ItemGroup>
 
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 </Project>

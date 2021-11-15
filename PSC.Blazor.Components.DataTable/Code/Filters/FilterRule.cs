@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿// ***********************************************************************
 // Assembly         : PSC.Blazor.Components.DataTable
 // Author           : Enrico Rossini
@@ -82,6 +83,35 @@ namespace PSC.Blazor.Components.DataTable.Code.Filters
 		/// <param name="propertyType">Type of the property.</param>
 		/// <param name="propertyName">Name of the property.</param>
 		/// <param name="objectFilter">The object filter.</param>
+=======
+﻿using PSC.Blazor.Components.DataTable.Code.Enumerations;
+using PSC.Blazor.Components.DataTable.Components;
+using PSC.Blazor.Components.DataTable.EventsArgs;
+using System;
+using System.Linq.Expressions;
+
+namespace PSC.Blazor.Components.DataTable.Code.Filters
+{
+	public class
+		FilterRule<TModel>
+	{
+		public Guid Guid { get; private set; }
+
+		public DataTableColumn<TModel> Column { get; private set; }
+
+		public string PropertyName { get; private set; }
+
+		public ObjectFilter FilterType { get; set; }
+
+		public Type ExpectedValueType { get; private set; }
+
+		public dynamic? FilterValue { get; private set; } = null;
+
+		public bool IsApplied { get; set; } = false;
+
+		public bool IsNullable { get; private set; } = false;
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		public FilterRule(DataTableColumn<TModel> column, Type propertyType, string propertyName, ObjectFilter objectFilter)
 		{
 			Guid = Guid.NewGuid();
@@ -92,12 +122,15 @@ namespace PSC.Blazor.Components.DataTable.Code.Filters
 			UpdatePropertyType(propertyType);
 		}
 
+<<<<<<< HEAD
 		/// <summary>
 		/// Updates the filter property.
 		/// </summary>
 		/// <param name="column">The column.</param>
 		/// <param name="propertyType">Type of the property.</param>
 		/// <param name="propertyName">Name of the property.</param>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		public void UpdateFilterProperty(DataTableColumn<TModel> column, Type propertyType, string propertyName)
 		{
 			Column = column;
@@ -105,19 +138,25 @@ namespace PSC.Blazor.Components.DataTable.Code.Filters
 			UpdatePropertyType(propertyType);
 		}
 
+<<<<<<< HEAD
 		/// <summary>
 		/// Updates the filter value.
 		/// </summary>
 		/// <param name="valueChangedEventArgs">The <see cref="ValueChangedEventArgs" /> instance containing the event data.</param>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		public void UpdateFilterValue(ValueChangedEventArgs valueChangedEventArgs)
 		{
 			FilterValue = valueChangedEventArgs.Value;
 		}
 
+<<<<<<< HEAD
 		/// <summary>
 		/// Generates the expression.
 		/// </summary>
 		/// <returns>Expression&lt;Func&lt;TModel, System.Boolean&gt;&gt;.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		public Expression<Func<TModel, bool>> GenerateExpression()
 		{
 			if (Type.GetTypeCode(ExpectedValueType) == TypeCode.DateTime)
@@ -140,11 +179,14 @@ namespace PSC.Blazor.Components.DataTable.Code.Filters
 			return FilterType.GenerateExpression<TModel>(Column.GetColumnPropertyName(), FilterValue);
 		}
 
+<<<<<<< HEAD
 		/// <summary>
 		/// Updates the type of the property.
 		/// </summary>
 		/// <param name="propertyType">Type of the property.</param>
 		/// <exception cref="Exception">Unsupported property type for filtering</exception>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		private void UpdatePropertyType(Type propertyType)
 		{
 			if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -218,10 +260,13 @@ namespace PSC.Blazor.Components.DataTable.Code.Filters
 			}
 		}
 
+<<<<<<< HEAD
 		/// <summary>
 		/// Gets the applied filter rule text.
 		/// </summary>
 		/// <returns>System.String.</returns>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		public string GetAppliedFilterRuleText()
 		{
 			if (FilterType.ValueRequired)
@@ -231,6 +276,7 @@ namespace PSC.Blazor.Components.DataTable.Code.Filters
 			}
 			else return $"{Column.GetColumnVisualPropertyName()}\t{FilterType.ToString()}";
 		}
+<<<<<<< HEAD
 
 		/// <summary>
 		/// Applies the in memory filters.
@@ -310,5 +356,7 @@ namespace PSC.Blazor.Components.DataTable.Code.Filters
 				return false;
 			}).ToList();
 		}
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 	}
 }

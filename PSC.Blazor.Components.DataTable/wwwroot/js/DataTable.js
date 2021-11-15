@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿// ***********************************************************************
 // Assembly         : PSC.Blazor.Components.DataTable
 // Author           : Enrico Rossini
@@ -19,6 +20,12 @@ window.VirtualizedComponent = {
         /// </summary>
         /// <param name="component">The component.</param>
         /// <param name="contentElement">The content element.</param>
+=======
+﻿window.VirtualizedComponent = {
+    _ticking: false,
+    _initialize: function (component, contentElement) {
+        // Find closest scrollable container
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
         let scrollableContainer = contentElement.parentElement;
         while (!(scrollableContainer.style.overflow || scrollableContainer.style.overflowY)) {
             scrollableContainer = scrollableContainer.parentElement;
@@ -37,8 +44,11 @@ window.VirtualizedComponent = {
 
             if (!this._ticking) {
                 requestIdleCallback(() => {
+<<<<<<< HEAD
                     /// <summary>
                     /// </summary>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
                     component.invokeMethodAsync('OnScroll', lastKnownValues);
                     this._ticking = false;
                 });
@@ -61,10 +71,13 @@ function readClientRectWithoutTransform(elem) {
 }
 
 function openModal(identifier) {
+<<<<<<< HEAD
     /// <summary>
     /// Opens the modal.
     /// </summary>
     /// <param name="identifier">The identifier.</param>
+=======
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     $(`#${identifier}`).modal('show');
 }
 

@@ -3,6 +3,7 @@
 	[CascadingParameter]
 	private Paging? paging { get; set; }
 
+<<<<<<< HEAD
 	/// <summary>
     /// Gets or sets the URL to open
     /// </summary>
@@ -18,6 +19,14 @@
 	/// <summary>
     /// Gets or sets the page number
     /// </summary>
+=======
+	[Parameter]
+	public string Href { get; set; } = "";
+
+	[Parameter]
+	public bool IsActive { get; set; }
+
+>>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 	[Parameter]
 	public int PageNr { get; set; }
 
