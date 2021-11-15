@@ -5,7 +5,6 @@ DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/
 ![DataTable-InAction](https://user-images.githubusercontent.com/9497415/141645639-117d52d7-acf7-4ef6-a360-9a9d2f1b8295.gif)
 
 ## Anatomy of DataTable
-
 ![DataTable basis](https://user-images.githubusercontent.com/9497415/141643172-d7696fef-c7fe-42e8-8555-3373a5a548d7.png)
 
 ### IsLoading="true"
@@ -23,7 +22,7 @@ DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/
    ```
    > dotnet add package PSC.Blazor.Components.DataTable
    ```
-   
+
    or
    
    ```
@@ -37,7 +36,6 @@ DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/
 
    ```
    @using PSC.Blazor.Components.DataTable
-   @using PSC.Blazor.Components.DataTable.Enums
    @using PSC.Blazor.Components.DataTable.Models
    @using PSC.Blazor.Components.DataTable.EventsArgs
    ```
@@ -144,7 +142,6 @@ The component requires same external libraries to work properly:
 | IncludeToggleFilters | bool | false | Indicates whether or not to include a toggle icon. When clicked header/grid filters will re or disappear (only applicable when property |
 | SearchOnApplyHeaderFilter | bool | false | Indicates whether or not a search is instantly triggered when a header/grid filter is applied |
 | AutoAddFilterWhenClickedAndNoneActive | bool | true | Indicates whether or not to add an empty filter rule when a filterable column is clicked an no other filter rules exist. |
-
 
 ### Basic table
 
@@ -477,6 +474,18 @@ public async Task SearchForecastAsync(RequestArgs<WeatherForecast> args)
                     Property="(e) => e.Summary" />
 </DataTable>
 ```
+
+## Other Blazor components
+
+| Component name | Forum | Description |
+|---|---|---|
+| [DataTable for Blazor](https://www.puresourcecode.com/dotnet/net-core/datatable-component-for-blazor/) | [Forum](https://www.puresourcecode.com/forum/forum/datatables/) | DataTable component for Blazor WebAssembly and Blazor Server |
+| [Markdown editor for Blazor](https://www.puresourcecode.com/dotnet/blazor/markdown-editor-with-blazor/) | [Forum](https://www.puresourcecode.com/forum/forum/markdown-editor-for-blazor/) |  This is a Markdown Editor for use in Blazor. It contains a live preview as well as an embeded help guide for users. |
+| [Modal dialog for Blazor](https://www.puresourcecode.com/dotnet/blazor/modal-dialog-component-for-blazor/) | [Forum](https://www.puresourcecode.com/forum/forum/modal-dialog-for-blazor/) |  Simple Modal Dialog for Blazor WebAssembly |
+| [PSC.Extensions](https://www.puresourcecode.com/dotnet/net-core/a-lot-of-functions-for-net5/) | [Forum](https://www.puresourcecode.com/forum/forum/psc-extensions/) |  A lot of functions for .NET5 in a NuGet package that you can download for free. We collected in this package functions for everyday work to help you with claim, strings, enums, date and time, expressions... |
+| [Quill for Blazor](https://www.puresourcecode.com/dotnet/blazor/create-a-blazor-component-for-quill/) | [Forum](https://www.puresourcecode.com/forum/forum/quill-for-blazor/) |  Quill Component is a custom reusable control that allows us to easily consume Quill and place multiple instances of it on a single page in our Blazor application |
+| [Segment for Blazor](https://www.puresourcecode.com/dotnet/blazor/segment-control-for-blazor/) | [Forum](https://www.puresourcecode.com/forum/forum/segments-for-blazor/) |  This is a Segment component for Blazor Web Assembly and Blazor Server |
+| [Tabs for Blazor](https://www.puresourcecode.com/dotnet/blazor/tabs-control-for-blazor/) | [Forum](https://www.puresourcecode.com/forum/forum/tabs-for-blazor/) |  This is a Tabs component for Blazor Web Assembly and Blazor Server |
 
 ## More examples and documentation
 *   [Write a reusable Blazor component](https://www.puresourcecode.com/dotnet/blazor/write-a-reusable-blazor-component/)
