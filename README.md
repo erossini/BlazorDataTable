@@ -1,6 +1,8 @@
 # DataTable for Blazor
 DataTable component for [Blazor WebAssembly](https://www.puresourcecode.com/tag/blazor-webassembly/) and [Blazor Server](https://www.puresourcecode.com/tag/blazor-server/) with support for client/server side paging, filtering and sorting. For more info and examples, please visit my blog [PureSourceCode.com](https://www.puresourcecode.com) at this [page](https://www.puresourcecode.com/dotnet/net-core/datatable-component-for-blazor/).
 
+[Try DataTable online!](https://datatable.puresourcecode.com/)
+
 ## DataTable in action
 ![DataTable-InAction](https://user-images.githubusercontent.com/9497415/141645639-117d52d7-acf7-4ef6-a360-9a9d2f1b8295.gif)
 
@@ -73,6 +75,7 @@ The component requires same external libraries to work properly:
 | UsePageSizeSelector | bool | true | Boolean indicating hether to show the page size dropdown list (10, 25, 50 records) |
 | PageNumber | int | 1   | The number of the current page (only applicable when property UsePaging is true) |
 | PageSize | int | 10  | The amount of items shown on a page (only applicable when property UsePaging is true) |
+| PageSizeList | List<int> | { 10, 25, 50 } | The list of number of record per page you want to display in the PageSizeSelector |
 | PageCount | int | 1   | The total amount of pages (only applicable when property UsePaging is true) |
 | FetchData | Func&lt;RequestArgs, Task&gt;? | null | The method used for fetching and manipulating data (paging, filtering, sorting) on the server. When this method is null, all these actions will be performed on the initial dataset on the client. |
 | ShowHeaderFilters | bool | true | Indicates whether or not to show the header/grid filters |

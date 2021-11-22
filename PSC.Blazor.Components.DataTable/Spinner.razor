@@ -1,43 +1,7 @@
 ﻿@if (IsLoading)
 {
-<<<<<<< HEAD
     <div class="alert alert-warning" role="alert">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         @LoadingText
-=======
-    <div class="container-fluid">
-        <div class="row">
-            <div class="alert alert-warning" role="alert">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                @LoadingText
-            </div>
-        </div>
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     </div>
 }
-
-@code {
-<<<<<<< HEAD
-    /// <summary>
-    /// Determins if it has to display the spinner
-    /// </summary>
-    [Parameter]
-    public bool IsLoading { get; set; }
-
-    /// <summary>
-    /// The loading text to display
-    /// </summary>
-    /// <value>
-    /// By default the value is "Loading data..."
-    /// </value>
-    [Parameter]
-    public string? LoadingText { get; set; } = "Loading data...";
-}
-=======
-    [Parameter]
-    public bool IsLoading { get; set; }
-
-    [Parameter]
-    public string? LoadingText { get; set; } = "Fetching data...";
-}
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e

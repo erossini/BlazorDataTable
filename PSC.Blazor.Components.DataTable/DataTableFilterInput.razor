@@ -270,7 +270,6 @@ else
 }
 
 @code {
-<<<<<<< HEAD
 	/// <summary>
     /// Gets or sets the filter rule
     /// </summary>
@@ -322,32 +321,6 @@ else
 	/// <summary>
     /// Gets or sets the max width
     /// </summary>
-=======
-	[Parameter]
-	public FilterRule<TModel> FilterRule { get; set; }
-
-	[Parameter]
-	public bool IsHeaderRule { get; set; }
-
-	[Parameter]
-	public Dictionary<string, object> Attributes { get; set; } = new Dictionary<string, object>();
-
-	[Parameter]
-	public string ApplyButtonCssClass { get; set; }
-
-	[Parameter]
-	public string InputCssClass { get; set; } = "";
-
-	[Parameter]
-	public DateTimeFormat DateTimeFormat { get; set; } = DateTimeFormat.Date;
-
-	[Parameter]
-	public Func<Guid, bool, Task> ApplyFilter { get; set; }
-
-	[Parameter]
-	public Func<Guid, bool, Task> UnApplyFilter { get; set; }
-
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 	[Parameter]
 	public int MaxWidth { get; set; }
 
@@ -358,8 +331,4 @@ else
 		if (Attributes.ContainsKey("disabled")) return false;
 		else return true;
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e

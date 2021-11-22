@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿// ***********************************************************************
 // Assembly         : PSC.Blazor.Components.DataTable
 // Author           : Enrico Rossini
@@ -22,19 +21,6 @@ namespace PSC.Blazor.Components.DataTable.Enums
 	[Flags]
 	public enum TableStyle
 	{
-=======
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PSC.Blazor.Components.DataTable.Enums
-{
-    [Flags]
-    public enum TableStyle
-    {
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 		/// <summary>
 		/// The dark
 		/// </summary>
@@ -59,9 +45,5 @@ namespace PSC.Blazor.Components.DataTable.Enums
 		/// The sm
 		/// </summary>
 		Sm = 32,
-<<<<<<< HEAD
 	}
-=======
-    }
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 }

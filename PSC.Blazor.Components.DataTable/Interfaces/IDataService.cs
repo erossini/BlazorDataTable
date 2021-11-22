@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿// ***********************************************************************
 // Assembly         : PSC.Blazor.Components.DataTable
 // Author           : Enrico Rossini
@@ -17,20 +16,10 @@ using PSC.Blazor.Components.DataTable.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-=======
-﻿using Microsoft.EntityFrameworkCore;
-using PSC.Blazor.Components.DataTable.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 using System.Threading.Tasks;
 
 namespace PSC.Blazor.Components.DataTable.Interfaces
 {
-<<<<<<< HEAD
 	/// <summary>
 	/// Interface IDataService
 	/// </summary>
@@ -77,22 +66,4 @@ namespace PSC.Blazor.Components.DataTable.Interfaces
 		  Pager pager)
 		  where TEntity : class, new();
 	}
-=======
-    public interface IDataService<TContext> where TContext : DbContext
-    {
-        IList<TEntity> Search<TEntity>(Expression<Func<TEntity, bool>> filters) where TEntity : class, new();
-
-        PagedResult<TEntity> SearchPaged<TEntity>(
-          Expression<Func<TEntity, bool>> filters,
-          Pager pager)
-          where TEntity : class, new();
-
-        Task<IList<TEntity>> SearchAsync<TEntity>(Expression<Func<TEntity, bool>> filters) where TEntity : class, new();
-
-        Task<PagedResult<TEntity>> SearchPagedAsync<TEntity>(
-          Expression<Func<TEntity, bool>> filters,
-          Pager pager)
-          where TEntity : class, new();
-    }
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 }

@@ -108,7 +108,6 @@
 </div>
 
 @code {
-<<<<<<< HEAD
 	/// <summary>
     /// Gets or sets the Id for the Modal dialog
     /// </summary>
@@ -167,7 +166,7 @@
     /// Gets or sets the action to call to add a new filter
     /// </summary>
     [Parameter]
-    public Action<DataTableColumn<TModel>?> AddFilterRule { get; set; }
+    public Action<DataTableColumn<TModel>> AddFilterRule { get; set; }
 	
 	/// <summary>
     /// Gets or sets the action to call to remove unused filters
@@ -178,41 +177,6 @@
 	/// <summary>
     /// Gets or sets the action to call to remove a filter
     /// </summary>
-=======
-    [Parameter]
-    public string ModalId { get; set; }
-
-    [Parameter]
-    public string ApplyButtonCssClass { get; set; }
-
-    [Parameter]
-    public string InputCssClass { get; set; } = "";
-
-    [Parameter]
-    public Func<Guid, bool, Task> UnApplyFilter { get; set; }
-
-    [Parameter]
-    public IList<FilterRule<TModel>> FilterRules { get; set; }
-
-    [Parameter]
-    public Dictionary<Guid, string> FilterableColumnProperties { get; set; }
-
-    [Parameter]
-    public Action<ChangeEventArgs, FilterRule<TModel>> SelectedPropertyForFilterRuleChanged { get; set; }
-
-    [Parameter]
-    public Func<Task> ApplyFilters { get; set; }
-
-    [Parameter]
-    public Func<Guid, bool, Task> ApplyFilter { get; set; }
-
-    [Parameter]
-    public Action<DataTableColumn<TModel>?> AddFilterRule { get; set; }
-
-    [Parameter]
-    public Action RemoveUnusedFilters { get; set; }
-
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
     [Parameter]
     public Action<Guid> RemoveFilterRule { get; set; }
 }

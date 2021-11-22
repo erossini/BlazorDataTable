@@ -1,34 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-    <Content Remove="wwwroot\img\psc_logo.png" />
+    <Content Remove="wwwroot\img\psc_logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
-=======
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.7" PrivateAssets="all" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <None Include="wwwroot\img\psc_logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" PrivateAssets="all" />
+    <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PSC.Blazor.Components.DataTable\PSC.Blazor.Components.DataTable.csproj" />
   </ItemGroup>
 
-<<<<<<< HEAD
   <ItemGroup>
-    <None Include="wwwroot\img\psc_logo.png">
+    <Content Update="wwwroot\img\psc_logo.png">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
-    </None>
+    </Content>
   </ItemGroup>
 
-=======
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 </Project>

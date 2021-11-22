@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿// ***********************************************************************
 // Assembly         : PSC.Blazor.Components.DataTable
 // Author           : Enrico Rossini
@@ -37,32 +36,10 @@ namespace PSC.Blazor.Components.DataTable.Code.Extensions
 		{
 			if (!string.IsNullOrEmpty(pager.SortColumn))
 				source = source.OrderBy<TEntity>(pager.SortColumn + " " + pager.SortDirection.ToString().ToLower(), Array.Empty<object>());
+
 			int count = (pager.PageNumber - 1) * pager.PageSize;
-			return new Models.PagedResult<TEntity>(Queryable.Take<TEntity>(Queryable.Skip<TEntity>(source, count), pager.PageSize).ToList<TEntity>(), pager.PageNumber, pager.PageSize, source.Count<TEntity>(), pager.SortColumn, pager.SortDirection);
+			return new Models.PagedResult<TEntity>(Queryable.Take<TEntity>(Queryable.Skip<TEntity>(source, count), pager.PageSize).ToList<TEntity>(),
+				pager.PageNumber, pager.PageSize, source.Count<TEntity>(), pager.SortColumn, pager.SortDirection);
 		}
 	}
-=======
-﻿using PSC.Blazor.Components.DataTable.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PSC.Blazor.Components.DataTable.Code.Extensions
-{
-    public static class QueryableExtensions
-    {
-        public static Models.PagedResult<TEntity> ApplyPaging<TEntity>(
-          this IQueryable<TEntity> source,
-          Pager pager)
-        {
-            if (!string.IsNullOrEmpty(pager.SortColumn))
-                source = (IQueryable<TEntity>)DynamicQueryableExtensions.OrderBy<TEntity>(source, pager.SortColumn + " " + pager.SortDirection.ToString().ToLower(), Array.Empty<object>());
-            int count = (pager.PageNr - 1) * pager.PageSize;
-            return new Models.PagedResult<TEntity>((IEnumerable<TEntity>)Queryable.Take<TEntity>(Queryable.Skip<TEntity>(source, count), pager.PageSize).ToList<TEntity>(), pager.PageNr, pager.PageSize, (long)Queryable.Count<TEntity>(source), pager.SortColumn, pager.SortDirection);
-        }
-    }
->>>>>>> 8067c1cc92c53e34d87ef71bf5c8fe928812459e
 }
