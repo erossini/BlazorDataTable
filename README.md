@@ -193,7 +193,7 @@ The component requires same external libraries to work properly:
     <DataTableColumn TModel="WeatherForecast"
                     Property="(e) => e.UpdatedRecently"
                     CustomTitle="Recently updated">
-    <Template Context="forecast">
+    <RowTemplate  Context="forecast">
         @if (forecast.UpdatedRecently)
         {
             <i class="fas fa-check-circle" style="color: green;" />
@@ -202,7 +202,7 @@ The component requires same external libraries to work properly:
         {
             <i class="far fa-times-circle" style="color: red;" />
         }
-            </Template>
+   </RowTemplate >
     </DataTableColumn>
 </DataTable>
 ```
